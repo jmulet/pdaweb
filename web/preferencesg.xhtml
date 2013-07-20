@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3c.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <f:view locale="#{mbLogin.preferences.locale}">
+    <h:head>
+        <title>Preferències</title>
+        <style>        
+            #northpanel{z-index:2 !important;}
+            #northpanel div{overflow: visible;}
+        </style>
+        
+    </h:head>
+    <h:body>
+               
+      <ui:include src="./timeout.xhtml"/>
+     
+
+       <p:growl id="growl" showDetail="true"/> 
+        
+        
+        <p:layout style="min-width:400px;min-height:300px;" id="layout" fullPage="true">
+
+            <p:layoutUnit id="northpanel" position="north" resizable="true" size="110" minSize="40" maxSize="200">
+                <h:form id="formnorth">   
+                    <ui:include src="./menug.xhtml"/>                  
+                </h:form>
+            </p:layoutUnit>
+
+            
+            <p:layoutUnit position="center" resizable="false" header="PDA DE GUARDIA: #{mbLogin.selectedUser.nombre}">
+                <h:form id="formcenter">
+                    
+                    <p:commandButton value="#{msgs.restore}" action="#{mbLogin.restauraPreferences}" ajax="false"/>  
+                    <p:commandButton value="#{msgs.apply}" action="#" ajax="false"/> 
+                     <p:commandButton value="#{msgs.applyandsave}" action="#{mbLogin.savePreferences}" ajax="false"/> 
+                       
+                     <p:panel header="#{msgs.lookandfeel}">
+                        <h:panelGrid columns="1">
+                        <h:panelGrid columns="10">
+                        <h:panelGrid columns="1" style="margin-bottom:10px">  
+                            <h:outputLabel value="#{msgs.fontsize}" for="midainput"/>
+                         <p:inputText id="midainput" value="#{mbLogin.preferences.pp_fontscale}" />  
+                         <p:slider for="midainput" minValue="10" maxValue="150">  
+                           <p:ajax event="slideEnd" listener="#{mbLogin.onSlideEnd}" />  
+                         </p:slider>
+                        </h:panelGrid>  
+                  
+                            <h:outputLabel value="#{msgs.theme}" for="tema"/>
+                            <h:selectOneMenu id="tema" value="#{mbLogin.preferences.pg_theme}">  
+                        <f:selectItem itemLabel="Aristo" itemValue="aristo" />  
+                        <f:selectItem itemLabel="Blue-Sky" itemValue="bluesky" />  
+                        <f:selectItem itemLabel="Casablanca" itemValue="casablanca" />  
+                        <f:selectItem itemLabel="Dark-hive" itemValue="dark-hive" />  
+                        <f:selectItem itemLabel="Eggplant" itemValue="eggplant" />  
+                        <f:selectItem itemLabel="Glass-X" itemValue="glass-x" />  
+                        <f:selectItem itemLabel="Humanity" itemValue="humanity" />  
+                      </h:selectOneMenu>  
+                    
+                      
+                      <h:outputLabel value="#{msgs.menutype}" for="tipusmenu"/>
+                     <h:selectOneMenu id="tipusmenu" value="#{mbLogin.preferences.pp_menutype}">  
+                        <f:selectItem itemLabel="Mac-Dock menú" itemValue="1" />  
+                        <f:selectItem itemLabel="Barra de menú" itemValue="2" />  
+                      </h:selectOneMenu>  
+                       
+                      
+                       </h:panelGrid>
+                        
+                         <h:panelGrid columns="2">
+                         <h:outputLabel value="#{msgs.showpict}" for="showpict"/>
+                        <p:selectBooleanCheckbox id="showpict" value="#{mbLogin.preferences.pp_showPictAlumnes}"/>
+                         </h:panelGrid>
+                      
+                      <h:panelGrid columns="2">      
+                       <h:outputLabel value="#{msgs.lang}" for="lang"/>
+                      <h:selectOneMenu id="lang" value="#{mbLogin.preferences.locale}">  
+                        <f:selectItem itemLabel="Català" itemValue="ca" />  
+                        <f:selectItem itemLabel="Español" itemValue="es" />  
+                        <f:selectItem itemLabel="English" itemValue="en" />  
+                      </h:selectOneMenu>  
+                       </h:panelGrid>  
+                      </h:panelGrid>
+                        
+                    </p:panel>
+                    
+    
+                    
+               </h:form>
+            </p:layoutUnit>
+        </p:layout>
+
+
+    </h:body>
+    </f:view>
+</html>
+
+              
+

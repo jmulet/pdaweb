@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    
+    
+
+    
+    <ui:composition>
+    
+    <style type="text/css">
+      .preficon {
+        background: url(images/preferences_mini.png) no-repeat left center !important; 
+        height:22px !important;
+        width:22px !important;
+        }          
+      .llistaicon {
+        background: url(images/passarllista_mini.png) no-repeat left center !important; 
+        height:22px !important;
+        width:22px !important;
+        }      
+        .actividadesicon {
+        background: url(images/actividades_mini.png) no-repeat left center !important; 
+        height:22px !important;
+        width:22px !important;
+        } 
+        .tutoriaicon {
+        background: url(images/tutoria_mini.png) no-repeat left center !important; 
+        height:22px !important;
+        width:22px !important;
+        }
+        .mailicon {
+        background: url(images/mail_mini.png) no-repeat left center !important; 
+        height:22px !important;
+        width:22px !important;
+        }  
+        .reservesicon {
+        background: url(images/reserves_mini.png) no-repeat left center !important; 
+        height:22px !important;
+        width:22px !important;
+        }        
+         .missatgeriaicon {
+        background: url(images/missatgeria_mini.png) no-repeat left center !important; 
+        height:22px !important;
+        width:22px !important;
+        }        
+        .pdaicon {
+        background: url(images/pdaswitcher_mini.png) no-repeat left center !important; 
+        height:22px !important;
+        width:22px !important;
+        }          
+        .cloudicon {
+        background: url(images/cloud_mini.png) no-repeat left center !important; 
+        height:22px !important;
+        width:22px !important;
+        }          
+        
+        .ui-widget, .ui-widget .ui-widget {
+            font-size: #{mbLogin.preferences.pp_fontscale}% !important;
+        }
+          
+    </style>
+
+        <p:dock id="dock" proximity="40" position="top" rendered="#{mbLogin.preferences.pp_menutype==1}">  
+            <p:menuitem id="dock1" value="#{msgs.preferencies}" icon="/images/preferences.png" url="preferences.jsf"/>
+            <p:menuitem id="dock2" value="#{msgs.passarLlista}" icon="/images/passarllista.png" url="passarllista.jsf"/>  
+            <p:menuitem id="dock3" value="#{msgs.activitats}" icon="/images/actividades.png" url="activitats.jsf"/>  
+            <p:menuitem id="dock6" value="#{msgs.tutoria}" icon="/images/tutoria.gif" url="tutoria.jsf" rendered="#{mbLogin.selectedUser.tutor}"/>  
+            <p:menuitem id="dock5" value="#{msgs.sms}" icon="#{sessionScope.newMail>0?'/images/mail-new.png':'/images/mail.png'}" url="missatges.jsf"/>  
+            <p:menuitem id="dock8" value="#{msgs.missatgeria}" icon="/images/missatgeria.gif" url="missatgeria.jsf"/>  
+            <p:menuitem id="dock9" value="#{msgs.reserves}" icon="/images/reserves.png" url="reserves.jsf"/>  
+            <p:menuitem id="dock11" value="PDA de Guàrdies" icon="/images/pdaswitcher.png" action="#{mbLogin.switchPDA(1)}"/>
+            <p:menuitem value="#{msgs.filehosting}" icon="/images/cloud.png" url="filehosting.jsf"/>            
+            <p:menuitem id="dock4" value="#{msgs.sortir}" icon="/images/logout.png" action="#{mbLogin.logout}"/>  
+            
+        </p:dock>     
+     
+        <!--menu style-->
+        
+    <p:menubar id="menubar" rendered="#{mbLogin.preferences.pp_menutype==2}">  
+       
+            <p:menuitem value="#{msgs.passarLlista}" icon="llistaicon" url="passarllista.jsf"/>  
+            <p:menuitem value="#{msgs.activitats}" icon="actividadesicon" url="activitats.jsf"/>  
+            <p:menuitem value="#{msgs.tutoria}" icon="tutoriaicon" url="tutoria.jsf" rendered="#{mbLogin.selectedUser.tutor}"/>  
+            <p:menuitem value="#{msgs.sms}" icon="mailicon" url="missatges.jsf"/>              
+            <p:menuitem value="#{msgs.missatgeria}" icon="missatgeriaicon" url="missatgeria.jsf"/>  
+            <p:menuitem value="#{msgs.reserves}" icon="reservesicon" url="reserves.jsf"/>  
+            <p:menuitem value="#{msgs.pdaguardia}" icon="pdaicon" action="#{mbLogin.switchPDA(1)}"/>
+            <p:submenu label="#{msgs.more}" icon="ui-icon-plus">
+                <p:menuitem value="#{msgs.preferencies}" icon="preficon" url="preferences.jsf"/>
+                <p:menuitem value="#{msgs.filehosting}" icon="cloudicon" url="filehosting.jsf"/>      
+            </p:submenu>
+            <p:menuitem value="#{msgs.sortir}" icon="ui-icon ui-icon-close" action="#{mbLogin.logout}"/>  
+    </p:menubar>  
+        
+    </ui:composition>
+    
+</html>

@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+  
+    <f:view locale="#{mbLogin.preferences.locale}">
+    <h:head>
+        <title>PDA WEB: Guàrdies</title>
+        
+        <style type="text/css">
+            #northpanel{z-index:2 !important;}
+            #northpanel div{overflow: visible;}
+        </style>
+        
+    </h:head>
+    <h:body>
+          <ui:include src="./timeout.xhtml"/>
+                  
+            <p:layout style="min-width:400px;min-height:300px;" id="layout" fullPage="true">
+                <p:layoutUnit  id="northpanel" position="north" resizable="true" size="110" minSize="40" maxSize="200">
+                <h:form>
+                    <p:growl id="growl" autoUpdate="true" showDetail="true"/>
+                    <ui:include src="./menug.xhtml"/>
+                     <h:panelGrid columns="6" cellpadding="4">
+                       
+                        <p:button icon="ui-icon-arrowreturn-1-w" value="Endarrera" href="substitucions.jsf"/> 
+                       
+                        <h:outputText value="#{msgs.dia}"/>
+                        <h:outputScript library="js" name="../#{mbLogin.preferences.locale}-translation.js" target="head" />
+                        <p:calendar value="#{mbGuardies.dia}" pattern="dd/MM/yyyy" maxdate="#{mbLogin.avui}"
+                                    locale="#{mbLogin.preferences.locale}" showOn="button" effect="slideDown" disabled="true"> 
+                            <p:ajax event="dateSelect"  listener="#{mbGuardies.fillTable}" update=":formmain"  /> 
+                        </p:calendar>  
+                       <h:outputText value="#{msgs.hora}"/>
+                       <h:selectOneMenu id="hores2" value="#{mbGuardies.selectedHora}" disabled="true">  
+                            <f:selectItems value="#{mbGuardies.opcionesHoras}"/>    
+                            <p:ajax event="change" listener="#{mbGuardies.fillTable}" update=":formmain"/>
+                        </h:selectOneMenu>  
+                          
+                    </h:panelGrid>
+                </h:form>
+                </p:layoutUnit>
+                
+                <p:layoutUnit position="center" header="Triau la classe a substituir">
+                    <h:form id="formmain">
+                        
+                        <p:dataTable id="llista" var="cla" value="#{mbGuardies.horario}" selectionMode="single"
+                                     selection="#{mbGuardies.selectedClase}"
+                                         emptyMessage="No s'han trobat clases"
+                                         rowKey="#{cla.idClase}">
+                            
+                            
+                             <p:column headerText="Estat" sortBy="#{cla.status}">
+                                 <p:graphicImage value="/images/#{cla.img}" height="30" />
+                             </p:column>
+                             <p:column headerText="Professor/a" sortBy="#{cla.nombreProfesor}">
+                                 <h:outputText value="#{cla.nombreProfesor}"/>
+                             </p:column>
+                              <p:column headerText="Aula" sortBy="#{cla.aula}">
+                                 <h:outputText value="#{cla.aula}"/>
+                             </p:column>
+                             <p:column headerText="Grup" sortBy="#{cla.grupo}">
+                                 <h:outputText value="#{cla.grupo}"/>
+                             </p:column>
+                             <p:column headerText="Materia" sortBy="#{cla.materia}">
+                                 <h:outputText value="#{cla.materia}"/>
+                             </p:column>
+                             <p:column >
+                                 <p:commandButton icon="ui-icon-arrowreturn-1-e" value="Tria" action="#{mbGuardies.preparaSubstitucio}"
+                                                  update=":formmain :incform2 :pwdrequired2" 
+                                                  disabled="#{cla.status==1}" global="false" >
+                                     <f:setPropertyActionListener value="#{cla}" target="#{mbGuardies.selectedClase}"/>
+                                 </p:commandButton>
+                             </p:column>
+                         </p:dataTable>
+                              
+                    </h:form>
+                    
+                </p:layoutUnit>
+            </p:layout>
+
+           
+         <p:dialog id="incdlg" widgetVar="incvar" header="Anotau la incidència" modal="true" width="300" height="200">
+            <h:form id="incform2">
+                
+                <h:panelGrid columns="1">
+                <h:outputText value="Incidència"/>
+                <h:selectOneMenu id="listinc" value="#{mbGuardies.selectedIncidencia}" >  
+                            <f:selectItems value="#{mbGuardies.opcionesIncidencias}"/>    
+                  </h:selectOneMenu>  
+              
+                <h:outputText value="Observacions"/>
+                <p:inputTextarea maxlength="200" value="#{mbGuardies.observacions}"/>
+                
+               </h:panelGrid>
+                 <p:messages id="atention" showDetail="true" autoUpdate="true" />
+
+                <h:panelGrid columns="2">
+                    <p:commandButton value="Cancel·la" oncomplete="incvar.hide()" global="false"/>
+                    <p:commandButton id="acceptBtn" value="Accepta" update="atention"
+                                     action="#{mbGuardies.triaSubstitucio}"/>
+                </h:panelGrid>
+                
+                
+            </h:form>
+        </p:dialog>
+          
+          
+          
+       <p:dialog id="password" widgetVar="pwdrequired" header="Validació" modal="true" width="300" height="200">
+            <h:form id="pwdrequired2">
+                
+                <h:panelGrid columns="1">
+                <h:outputText value="No sou professor de guàrdia aquesta hora. Cal que us validau com super usuari per poder completar l'acció."/>
+                <p:password label="Contrasenya" value="#{mbGuardies.pwdSU}"/>
+                <p:messages id="atention2" showDetail="true" autoUpdate="true" />
+                <h:panelGrid columns="2">
+                    <p:commandButton value="Cancel·la" oncomplete="pwdrequired.hide()" global="false"/>
+                    <p:commandButton id="acceptBtn" value="Accepta" update="atention2"
+                                     action="#{mbGuardies.validaSubstitucio}" oncomplete="pwdrequired.hide()"/>
+                </h:panelGrid>
+                </h:panelGrid>
+                
+            </h:form>
+        </p:dialog>
+          
+    </h:body>
+        
+        
+       
+</f:view>
+</html>

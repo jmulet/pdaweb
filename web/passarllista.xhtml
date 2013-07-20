@@ -1,0 +1,469 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+  
+    <f:view locale="#{mbLogin.preferences.locale}">
+    <h:head>
+        <title>PDA WEB: Passar llista</title>
+        
+        <style type="text/css">
+        .preficono {
+        background: url('images/preferences.png') no-repeat !important; 
+        height:22px !important;
+        width:22px !important;
+        }                
+            .expulsat{
+                background-color: #FF5555 !important;
+                background-image: none !important;
+                color: #000000 !important;
+            }           
+            .dimecres{
+                background-color: #FF88DD!important;
+                background-image: none !important;
+                color: #000000 !important;
+            }   
+            .pg{
+                border-style: solid;
+            }
+        #northpanel{z-index:2 !important;}
+        #northpanel div{overflow: visible;}
+        
+        </style>
+        
+       <!-- <script type="text/javascript">
+            function selectRow(rowIndexHere) {
+                 var row = dataTableWidget.jq.find('tbody tr').eq(rowIndexHere);
+                 dataTableWidget.unselectAllRows();
+                 dataTableWidget.selectRow(row);
+            }
+        </script>
+       -->
+ 
+    </h:head>
+    <h:body>
+        
+      <ui:include src="./timeout.xhtml"/>
+           
+       <p:growl id="growl" showDetail="true"/> 
+        
+       <h:form>
+                   <p:hotkey bind="down" action="#{mbLlista.moveDown}" update=":form :formeast" global="false"/>
+                   <p:hotkey bind="up" action="#{mbLlista.moveUp}" update=":form :formeast" global="false" />
+    
+       </h:form>
+           
+                  
+        
+       <p:layout widgetVar="myLayout" style="min-width:400px;min-height:300px;" id="layout" fullPage="true">
+
+            <p:layoutUnit id="northpanel" position="north" resizable="true" size="110" minSize="40" maxSize="200">
+                <h:form id="formnorth">   
+                    <ui:include src="./menu.xhtml"/>
+                    
+                    <h:panelGrid columns="6" cellpadding="4">
+                        <h:outputText value="#{msgs.dia}"/>
+                        <h:outputScript library="js" name="#{mbLogin.preferences.locale}-translation.js" target="head" />
+                        <p:calendar value="#{mbLlista.dia}" pattern="dd/MM/yyyy" maxdate="#{mbLogin.avui}" 
+                                    locale="#{mbLogin.preferences.locale}" showOn="button" effect="slideDown" disabled="false"> 
+                            <p:ajax event="dateSelect" listener="#{mbLlista.carregaHorari}" update=":formnorth :form :formeast :anotacions dayalert" /> 
+                        </p:calendar>  
+                        <p:commandLink actionListener="#{mbLlista.goToday}" update=":formnorth :form :formeast :anotacions">
+                            <p:tooltip for="dayalert" value="#{mbLlista.dayAlert}"/>
+                            <p:graphicImage id="dayalert" value="images/alert.gif" rendered="#{mbLlista.dayAlert!=''}"/>
+                        </p:commandLink>
+                        <h:outputText value="#{msgs.classe}"/>
+                        <h:selectOneMenu id="hores" value="#{mbLlista.selectedHora}">  
+                            <f:selectItem itemLabel="#{msgs.triaopcio}" itemValue="" />  
+                            <f:selectItems value="#{mbLlista.opciones}"/>    
+                            <p:ajax listener="#{mbLlista.loadTable}" event="change" update=":formnorth :form :formeast :anotacions xlsexport" />  
+                        </h:selectOneMenu>  
+                        
+                          <p:commandButton id="xlsexport" value="Exporta llista" icon="ui-icon-print" ajax="false" disabled="#{mbLlista.selectedHora==''}">  
+                                <p:dataExporter type="xls" target=":form:llistat" fileName="llistat"
+                                                 postProcessor="#{mbLlista.postProcessXLS}"/>
+                          </p:commandButton>  
+                        
+                    </h:panelGrid>
+                       
+                </h:form>
+            </p:layoutUnit>
+
+            
+            
+            
+            <p:layoutUnit position="center" resizable="false" header="#{msgs.passarLlista}" >
+                   
+                <h:form id="form">   
+                    
+                   
+                    <p:dataTable id="llistat" widgetVar="dataTableWidget" var="user" value="#{mbLlista.modelLlistaClasse}"
+                                         selection="#{mbLlista.alumnoSelected}" selectionMode="single"
+                                         paginator="false" style="width:700;" 
+                                         emptyMessage="#{msgs.alumnesnotfound}"
+                                         scrollable="false" scrollHeight="400"
+                                         rowStyleClass="#{user.status==1?'expulsat':null}" >
+
+
+                                <p:ajax listener="#{mbLlista.getIncidenciesAlumne}" event="rowSelect"  
+                                        update=":formeast" global="false"/>  
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Núm." />
+                                    </f:facet>
+                                    <h:outputText value="#{user.ordre}" />
+                                    <p:graphicImage id="forbid" value="#{user.status==1?'images/expulsat.gif':null}" height="20" 
+                                                    rendered="#{user.status>0}"/>
+                                    <p:tooltip for="forbid" value="#{user.status==1?msgs.expelled:null}"/>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs.nomillinatges}" />
+                                    </f:facet>
+                                    <h:outputText value="#{user.nombre}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs.incidencies}" />
+                                    </f:facet>
+                                    <h:outputText value="#{user.incidencies}" />
+                                </p:column>
+                            </p:dataTable>
+                                
+                    
+                           </h:form>       
+                        </p:layoutUnit>
+
+                        <p:layoutUnit position="east" resizable="true" size="340" minSize="300" maxSize="800" 
+                                      collapsible="true" header="#{msgs.incidencies}"> 
+                        <h:form id="formeast">    
+                            <p:toolbar>  
+                                <p:toolbarGroup align="right" >  
+                                    <p:commandButton id="butal" value="AL" title="Amonestació Lleu" 
+                                                    actionListener="#{mbLlista.preparanovaInc}" 
+                                                     disabled="#{mbLlista.selectedHora==''}" process="@this" 
+                                                     update=":formeast,:growl,:novaincform,:form:llistat" oncomplete="novaincdlgwv.show()"/>
+                                    <p:commandButton id="butag" value="AG" title="Amonestació Greu" 
+                                                     actionListener="#{mbLlista.preparanovaInc}" 
+                                                     disabled="#{mbLlista.selectedHora==''}" process="@this" 
+                                                     update=":formeast,:growl,:novaincform,:form:llistat" oncomplete="novaincdlgwv.show()"/>
+                                    <p:separator style="width:15px"/>
+                                </p:toolbarGroup>    
+
+                                <p:toolbarGroup align="right" >  
+                                    <p:commandButton id="butfa" value="FA" title="Falta a classe" actionListener="#{mbLlista.novaInc}" 
+                                                     disabled="#{mbLlista.selectedHora==''}" process="@this" 
+                                                     update=":formeast,:growl,:form"/>
+                                    <p:commandButton id="butre" value="RE" title="Retard" actionListener="#{mbLlista.novaInc}" 
+                                                     disabled="#{mbLlista.selectedHora==''}" process="@this" 
+                                                     update=":formeast,:growl,:form"/>
+                                    <p:separator style="width:15px"/>
+                                </p:toolbarGroup>   
+                            </p:toolbar>  
+
+                            <p:toolbar>  
+                                <p:toolbarGroup align="right">    
+                                    <p:commandButton id="butdi" value="DI" title="Càstig de Dimecres" actionListener="#{mbLlista.preparanovaInc}" 
+                                                     disabled="#{mbLlista.selectedHora==''}" process="@this" update=":formeast,:growl,:novaincform,:form:llistat" 
+                                                     oncomplete="novaincdlgwv.show()"/>    
+                                    <p:separator style="width:15px"/>
+                                </p:toolbarGroup>    
+
+                                <p:toolbarGroup align="right">    
+                                    <p:commandButton id="butcp" value="CP" title="Comentari Positiu" actionListener="#{mbLlista.preparanovaInc}" 
+                                                     disabled="#{mbLlista.selectedHora==''}" process="@this" update=":formeast,:growl,:novaincform,:form:llistat" 
+                                                     oncomplete="novaincdlgwv.show()"/>   
+                                    <p:commandButton id="butcn" value="CN" title="Comentari Negatiu" actionListener="#{mbLlista.preparanovaInc}" 
+                                                     disabled="#{mbLlista.selectedHora==''}" process="@this" update=":formeast,:growl,:novaincform,:form:llistat" 
+                                                     oncomplete="novaincdlgwv.show()"/>
+                                    <p:separator style="width:15px"/>
+                                </p:toolbarGroup>    
+                            </p:toolbar>   
+
+
+                            <h:panelGrid columns="3" cellpadding="2">
+                                <c:if test="#{mbLogin.preferences.pp_showPictAlumnes}">
+                                    <image src="imagesdb/#{mbLlista.alumnoSelected.expediente}" width="100px"/>
+                                </c:if>
+                                
+                                <p:commandLink value="#{msgs.alumnea}: #{mbLlista.alumnoSelected.nombre}" actionListener="#{mbLlista.loadDadesPersonals}" 
+                                               oncomplete="fitxawv.show()" update=":fitxaform" rendered="#{mbLlista.selectedHora!=''}"/>  
+                                <p:commandLink actionListener="#{mbLlista.preparaEstadistica}" 
+                                               oncomplete="stat.show()" update=":statform">
+                                   <p:graphicImage id="statimg" value="images/stat.png" rendered="#{mbLlista.selectedHora!=''}"/>
+                                </p:commandLink>
+                                  
+                            </h:panelGrid>
+
+
+                            <p:dataTable id="inc" var="incidencia" value="#{mbLlista.llistaInc}"
+                                         selection="#{mbLlista.selectedInc}" selectionMode="single"
+                                         paginator="false" style="width:700;" rowKey="#{incidencia.id}" 
+                                         emptyMessage="#{msgs.incidenciesnotfound}"  >
+                                 
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="id" />
+                                    </f:facet>
+                                    <p:commandButton update=":form :formeast :growl" icon="ui-icon ui-icon-trash" action="#{mbLlista.deleteInc}"
+                                                     title="Esborrar" rendered="#{incidencia.simbolo!='FJ' or incidencia.simbolo!='RJ'}"
+                                                     disabled="#{incidencia.simbolo=='ALH' || incidencia.simbolo=='EX'|| incidencia.simbolo=='FJ'}">   
+                                        <f:setPropertyActionListener value="#{incidencia}" target="#{mbLlista.selectedInc}" /> 
+                                    </p:commandButton>  
+                                    
+                                    <h:outputText value="#{incidencia.id}" />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs.incidencia}" />
+                                    </f:facet>
+                                    <h:outputText id="simbol" value="#{incidencia.simbolo}" />
+                                    <p:tooltip id="tip1" for="simbol" value="#{incidencia.descripcion}" />
+                                   
+                                    <p:commandButton oncomplete="detallsdlgwv.show();" action="#{mbLlista.onIncEdit}" icon="ui-icon ui-icon-pencil" update=":detallsdlgform"  title="Edita">              
+                                        <f:setPropertyActionListener value="#{incidencia}" target="#{mbLlista.selectedInc}" /> 
+                                    </p:commandButton>  
+
+
+                                </p:column>
+
+                            </p:dataTable>  
+                            
+                           
+
+                        </h:form>    
+                        </p:layoutUnit>
+            
+            <p:layoutUnit id="south" header="Anotacions" position="south" resizable="true" size="110" minSize="40" maxSize="200" collapsible="true" collapsed="#{mbLlista.southCollapsed}" >
+                   <h:form id="anotacions">
+                       <h:panelGrid columns="2">
+                           <h:outputLabel value="Notes de la sessió"/>  
+                           <p:inputTextarea value="#{mbLlista.seguimiento}" cols="80" maxlength="500"  disabled="#{mbLlista.selectedHora==''}">
+                               <p:ajax event="blur" listener="#{mbLlista.updateSeguimiento}" />
+                           </p:inputTextarea>
+                       </h:panelGrid>
+                   </h:form>
+               </p:layoutUnit>
+            
+                    </p:layout>          
+ 
+
+
+
+
+        <p:dialog id="detallsdlgform" header="Motius de la incidència(#{mbLlista.selectedInc.id})" 
+                  widgetVar="detallsdlgwv" modal="true"
+                  width="380">  
+            <h:form id="detallsdlg">
+ 
+                <h:panelGrid columns="1" cellpadding="2">
+                    <h:outputText value="Motiu" />
+                    <h:selectOneMenu id="motius" value="#{mbLlista.selectedMenu}">  
+                        <f:selectItems value="#{mbLlista.opcionesMotius}"/>    
+                    </h:selectOneMenu>
+
+                    <h:outputText id="comentaris" value="Observacions" />   
+                    <p:inputTextarea autoResize="false" maxlength="#{initParam['pdaweb.maxlength.incidencies']}" value="#{mbLlista.comentaris}" rows="5" cols="30"/>
+                </h:panelGrid>
+                
+                <p:messages id="atencio"  />
+              
+                <h:panelGrid columns="2" cellpadding="2">
+                    <p:commandButton  value="Cancel·la"  actionListener="#{mbLlista.cancelaDlg}" process="@this" oncomplete="detallsdlgwv.hide();"/>
+                    <p:commandButton  value="Accepta" actionListener="#{mbLlista.acceptaDlg}"  update=":form,atencio"/>
+                </h:panelGrid>
+
+            </h:form>
+        </p:dialog>  
+       
+
+       <p:dialog id="novaincform" header="Nova: #{mbLlista.selectedInc.descripcion}" 
+                  widgetVar="novaincdlgwv" modal="true"
+                  width="380">  
+        <h:form id="novaincdlg">            
+ 
+                <h:panelGrid columns="1" cellpadding="2">
+                    <h:outputText value="Motiu" />
+                    <h:selectOneMenu id="motius" value="#{mbLlista.selectedMenu}">  
+                        <f:selectItems value="#{mbLlista.opcionesMotius}"/>    
+                    </h:selectOneMenu>
+
+                    <h:outputText id="comentaris" value="Observacions" />   
+                    <p:inputTextarea autoResize="false" maxlength="#{initParam['pdaweb.maxlength.incidencies']}"   value="#{mbLlista.comentaris}" rows="5" cols="30"/>
+                </h:panelGrid>
+                
+                <p:messages id="atencio2" showDetail="true" />
+              
+                <h:panelGrid columns="2" cellpadding="2">
+                    <p:commandButton  value="Cancel·la"  actionListener="#{mbLlista.cancelaDlg}" process="@this" oncomplete="novaincdlgwv.hide();"/>
+                    <p:commandButton  value="Accepta" actionListener="#{mbLlista.acceptaDlg}"  update=":form,:formeast,atencio2"/>
+                </h:panelGrid>
+
+        </h:form>                
+        </p:dialog>  
+       
+         <p:dialog id="fitxa" header="Fitxa de l'alumne/a" 
+                  widgetVar="fitxawv" modal="false" width="580" height="400" >  
+            <h:form id="fitxaform">
+ 
+             <p:tabView dynamic="true" cache="true">  
+  
+        <p:tab title="Dades Personals">  
+            
+            <p:accordionPanel multiple="true" cache="true">  
+                    
+                    <p:tab title="Dades generals">
+                        <h:panelGrid columns="4" cellpadding="2" cellspacing="2">  
+                            <h:outputLabel value="DNI:" for="dni" style="font-weight:bold"/>
+                            <h:outputText id="dni" value="#{mbLlista.dadesPersonals.dni}"/>
+                            <h:outputLabel value="  Sexe:" for="sexe" style="font-weight:bold"/>
+                            <h:outputText id="sexe" value="#{mbLlista.dadesPersonals.sexe}"/>
+                            <h:outputLabel value="Expedient:" for="expediente" style="font-weight:bold"/>
+                            <h:outputText id="expediente" value="#{mbLlista.dadesPersonals.expedient}"/>
+                            <h:outputLabel value="  Contrasenya:" for="password"  style="font-weight:bold"/>
+                            <h:outputText id="password" value="#{mbLlista.dadesPersonals.sgdPasswd}"/>
+                             <h:outputLabel value="Edat" for="edat" style="font-weight:bold"/>
+                            <h:outputText id="edat" value="#{mbLlista.dadesPersonals.edat}"/>
+                            <h:outputLabel value="  Núm repeticions:" for="nrep" style="font-weight:bold"/>
+                            <h:outputText id="nrep" value="#{mbLlista.dadesPersonals.numRep}"/>
+                        </h:panelGrid>  
+                    </p:tab>
+                                
+                    <p:tab title="Naixement">  
+                       <h:panelGrid columns="4" cellpadding="2" cellspacing="2">  
+                            <h:outputLabel value="Data naixement:" for="dataneix" style="font-weight:bold"/>
+                            <h:outputText id="dataneix" value="#{mbLogin.date2str(mbLlista.dadesPersonals.dataNaixament)}"/>
+                            <h:outputLabel value="  Pais naixement:" for="paisneix" style="font-weight:bold"/>
+                            <h:outputText id="paisneix" value="#{mbLlista.dadesPersonals.paisNaixament}"/>
+                            <h:outputLabel value="Provincia:" for="provincianeix" style="font-weight:bold"/>
+                            <h:outputText id="provincianeix" value="#{mbLlista.dadesPersonals.provinciaNaixament}"/>
+                            <h:outputLabel value="  Localitat:" for="localitatneix" style="font-weight:bold"/>
+                            <h:outputText id="localitatneix" value="#{mbLlista.dadesPersonals.localitatNaixament}"/>
+                        </h:panelGrid>  
+                    </p:tab>
+                      
+                     <p:tab title="Telefons">  
+                          <p:dataList value="#{mbLlista.dadesPersonals.telefonsUrgencia}" var="telf" itemType="circle">  
+                                #{telf} 
+                           </p:dataList>  
+                    </p:tab>
+                    
+                     <p:tab title="Adreça familiar">  
+                         <h:panelGrid columns="4" cellpadding="2" cellspacing="2">  
+                            <h:outputLabel value="Adreça:" for="adreca" style="font-weight:bold"/>
+                            <h:outputText id="adreca" value="#{mbLlista.dadesPersonals.adreca}"/>
+                            <h:outputLabel value="  Municipi:" for="municipi" style="font-weight:bold"/>
+                            <h:outputText id="municipi" value="#{mbLlista.dadesPersonals.municipi}"/>
+                            <h:outputLabel value="Localitat:" for="localitat" style="font-weight:bold"/>
+                            <h:outputText id="localitat" value="#{mbLlista.dadesPersonals.localitat}"/>
+                            <h:outputLabel value="  CP:" for="cpostal" style="font-weight:bold"/>
+                            <h:outputText id="cpostal" value="#{mbLlista.dadesPersonals.cp}"/>
+                         </h:panelGrid>
+                    </p:tab>
+                    
+                     <p:tab title="Informació tutors">  
+                          <p:dataList value="#{mbLlista.dadesPersonals.tutorsInfo}" var="tut" itemType="circle">  
+                                #{tut.parentesc}, #{tut.nom}, #{tut.telefons}
+                         </p:dataList>     
+                    </p:tab>
+            
+                </p:accordionPanel>  
+            
+        </p:tab>  
+  
+        <p:tab title="Cursos a l'IES Alcúdia">  
+            <p:dataTable var="curs" value="#{mbLlista.cursosIES}"
+                            scrollable="false" scrollHeight="400">
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Any" />
+                    </f:facet>
+                    <h:outputText value="#{curs.any_academic}" />
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Grup" />
+                    </f:facet>
+                    <h:outputText value="#{curs.curs} #{curs.grup}" />
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Tutor" />
+                    </f:facet>
+                    <h:outputText value="#{curs.professor}" />
+                </p:column>
+            </p:dataTable>
+                              
+        </p:tab>  
+  
+    </p:tabView> 
+
+         </h:form>
+        </p:dialog>  
+
+       
+     <p:dialog id="statdlg" header="Resum d'incidències de l'alumne/a" 
+                  widgetVar="stat" modal="true" width="350" height="300" >  
+         <h:form id="statform">
+             <h:outputText value="Total d'incidències en aquesta assignatura:"/>
+             <p:panel header="1a Avaluació">
+                 <h:panelGrid columns="4" cellspacing="4" styleClass="pg">
+                     <h:outputText value="FA"/>
+                     <h:outputText value="FJ"/>
+                     <h:outputText value="AL"/>
+                     <h:outputText value="AG"/>
+                    
+                    <h:outputText value="#{mbLlista.stat.fa1}"/>
+                    <h:outputText value="#{mbLlista.stat.fj1}"/>
+                    <h:outputText value="#{mbLlista.stat.al1}"/>
+                    <h:outputText value="#{mbLlista.stat.ag1}"/>
+                 </h:panelGrid>
+                     
+             </p:panel>
+               <p:panel header="2a Avaluació">
+                 <h:panelGrid columns="4"  cellspacing="4" styleClass="pg">
+                     <h:outputText value="FA"/>
+                     <h:outputText value="FJ"/>
+                     <h:outputText value="AL"/>
+                     <h:outputText value="AG"/>
+                    
+                    <h:outputText value="#{mbLlista.stat.fa2}"/>
+                    <h:outputText value="#{mbLlista.stat.fj2}"/>
+                    <h:outputText value="#{mbLlista.stat.al2}"/>
+                    <h:outputText value="#{mbLlista.stat.ag2}"/>
+                 </h:panelGrid>
+                     
+             </p:panel>
+
+                <p:panel header="3a Avaluació">
+                    <h:panelGrid columns="4"  cellspacing="4" styleClass="pg">
+                     <h:outputText value="FA"/>
+                     <h:outputText value="FJ"/>
+                     <h:outputText value="AL"/>
+                     <h:outputText value="AG"/>
+                    
+                    <h:outputText value="#{mbLlista.stat.fa3}"/>
+                    <h:outputText value="#{mbLlista.stat.fj3}"/>
+                    <h:outputText value="#{mbLlista.stat.al3}"/>
+                    <h:outputText value="#{mbLlista.stat.ag3}"/>
+                 </h:panelGrid>
+                     
+             </p:panel>
+
+         </h:form>
+     </p:dialog>
+       
+    </h:body>
+    </f:view>
+</html>
+

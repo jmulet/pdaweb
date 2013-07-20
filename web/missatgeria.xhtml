@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3c.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+     <f:view locale="#{mbLogin.preferences.locale}">
+    <h:head>
+        <title>Sol·licituds d'informació de tutors</title>
+        
+        <style type="text/css">
+        .instruccions {
+        background: orange !important; 
+        }     
+         .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
+                white-space: normal !important;
+         }
+         #northpanel{z-index:2 !important;}
+         #northpanel div{overflow: visible;}
+        </style>
+    </h:head>
+    <h:body>
+               
+        
+      <ui:include src="./timeout.xhtml"/>
+     
+      <p:growl id="growl" autoUpdate="true"/>
+       
+        <p:layout style="min-width:400px;min-height:300px;" id="layout" fullPage="true">
+
+            <p:layoutUnit id="northpanel" position="north" resizable="true" size="65" minSize="40" maxSize="200">
+                <h:form id="formnorth">   
+                    <ui:include src="./menu.xhtml"/>
+                  </h:form>
+            </p:layoutUnit>
+
+            
+            
+            
+            <p:layoutUnit position="center" resizable="false" header="#{msgs.missatgeria}">
+                <h:form id="form">
+                    <h:outputText value="Teniu #{mbMissatgeria.numPendents} sol·licituds pendents de tutors" rendered="#{mbMissatgeria.numPendents!=0}"/>
+                    <p:button value="Ajornar-ho" rendered="#{mbMissatgeria.numPendents!=0}" href="passarllista.jsf?faces-redirect=true"/>
+        
+                    <p:tabView id="tabpendents">  
+
+                        <p:tab title="Pendents (#{mbMissatgeria.numPendents})">  
+                            
+                            <h:outputText value="No teniu sol·licituds pendents" rendered="#{mbMissatgeria.numPendents==0}"/>
+                            
+                            <p:panel rendered="#{mbMissatgeria.numPendents>0}">
+                            <h:panelGrid columns="2">
+                            <h:panelGrid columns="1">
+                            <h:panelGrid columns="2" cellpadding="5">  
+                                <h:outputText value="Alumne/a:" style="font-weight: bold"/>
+                                <h:outputText value="#{mbMissatgeria.pendentSelected.nomAlumne}"/>
+                            </h:panelGrid>  
+                            <h:panelGrid columns="6" cellpadding="5">  
+                                <h:outputText value="Grup:" style="font-weight: bold"/>
+                                <h:outputText value="#{mbMissatgeria.pendentSelected.grupo}"/>
+                                <h:outputText value="Data Entrevista:" style="font-weight: bold"/>
+                                <h:outputText value="#{mbLogin.date2str(mbMissatgeria.pendentSelected.dataEntrevista)}"/>
+                                <h:outputText value="Matèria:" style="font-weight: bold"/>
+                                <h:outputText value="#{mbMissatgeria.pendentSelected.materia}"/>
+                            </h:panelGrid>  
+                            <h:panelGrid columns="2" cellpadding="5">  
+                                <h:outputText value="Tutor/a:" style="font-weight: bold"/>
+                                <h:outputText value="#{mbMissatgeria.pendentSelected.remitent}"/>
+                            </h:panelGrid>
+                               </h:panelGrid>
+                                <img src="imagesdb/#{mbMissatgeria.pendentSelected.expedient}" height="100px"/>
+                            </h:panelGrid>
+                                <h:outputText value="Instruccions: #{mbMissatgeria.pendentSelected.instruccions}"
+                                              styleClass="instruccions"  rendered="#{mbMissatgeria.pendentSelected.instruccions!=''}"/>
+                         
+                                <p:separator/>
+                                <h:panelGrid columns="4" cellpadding="3">  
+                                <p:commandButton value="Anterior" action="#{mbMissatgeria.back}" update=":form" global="false"/>
+                                <p:commandButton value="Envia'l" action="#{mbMissatgeria.send}" update=":form :formnorth"/>
+                                <p:commandButton value="Següent" action="#{mbMissatgeria.next}" update=":form"  global="false"/>
+                                
+                                <p:commandLink actionListener="#{mbMissatgeria.dismissExpired}" update=":form" rendered="#{mbMissatgeria.pendentSelected.expired}">
+                                   <p:tooltip for="expired" value="Elimina el missatge caducat"/>
+                                   <p:graphicImage id="expired" value="images/caducado.gif" rendered="#{mbMissatgeria.pendentSelected.expired}"/>
+                                </p:commandLink>
+                                
+                            
+                                </h:panelGrid>
+                            <p:separator/>
+                            
+                            
+                            <h:panelGrid columns="1">
+                            <h:panelGrid columns="2" cellpadding="2">  
+                                <h:outputText value="Actitud:"/>
+                                <h:selectOneMenu id="comboActitud" value="#{mbMissatgeria.selectedActitud}">
+                                        <f:selectItem itemLabel="Tria una opció" itemValue="" />  
+                                        <f:selectItems value="#{mbMissatgeria.comboActitud}"/>
+                                        <p:ajax event="change" listener="#{mbMissatgeria.comboEvent('actitud')}" update="txtActitud,comboActitud"/>    
+                                </h:selectOneMenu>    
+                            </h:panelGrid> 
+                            <p:message for="txtActitud"/>
+                            <p:inputTextarea id="txtActitud" value="#{mbMissatgeria.pendentSelected.actitud}" autoResize="false" required="false" 
+                                             requiredMessage="Aquest camp no pot ésser buid" rows="2" cols="90" maxlength="250" />
+                            <h:panelGrid columns="2" cellpadding="2">  
+                                <h:outputText value="Feina:"/>
+                                <h:selectOneMenu id="comboFeina" value="#{mbMissatgeria.selectedFeina}">
+                                        <f:selectItem itemLabel="Tria una opció" itemValue="" />  
+                                        <f:selectItems value="#{mbMissatgeria.comboFeina}"/>
+                                        <p:ajax event="change" listener="#{mbMissatgeria.comboEvent('feina')}" update="txtFeina,comboFeina"/>    
+                                </h:selectOneMenu>    
+                            </h:panelGrid> 
+                            <p:message for="txtFeina"/>
+                            <p:inputTextarea id="txtFeina" value="#{mbMissatgeria.pendentSelected.feina}" autoResize="false" required="false" 
+                                             requiredMessage="Aquest camp no pot ésser buid" rows="2" cols="90" maxlength="250" />
+                            <h:panelGrid columns="2" cellpadding="2">  
+                                <h:outputText value="Notes:"/>
+                                <h:selectOneMenu id="comboNotes" value="#{mbMissatgeria.selectedNotes}">
+                                        <f:selectItem itemLabel="Tria una opció" itemValue="" />  
+                                        <f:selectItems value="#{mbMissatgeria.comboNotes}"/>
+                                        <p:ajax event="change" listener="#{mbMissatgeria.comboEvent('notes')}" update="txtNotes,comboNotes"/>    
+                                </h:selectOneMenu>    
+                            </h:panelGrid> 
+                            <p:message for="txtNotes"/>
+                            <p:inputTextarea id="txtNotes" value="#{mbMissatgeria.pendentSelected.notes}" autoResize="false" required="false" 
+                                             requiredMessage="Aquest camp no pot ésser buid" rows="4" cols="90"/>
+                            <h:panelGrid columns="2" cellpadding="2">  
+                                <h:outputText value="Observacions:"/>
+                                <h:selectOneMenu id="comboObservacions" value="#{mbMissatgeria.selectedObservacions}">
+                                        <f:selectItem itemLabel="Tria una opció" itemValue="" />
+                                        <f:selectItems value="#{mbMissatgeria.comboObservacions}"/>
+                                         <p:ajax event="change" listener="#{mbMissatgeria.comboEvent('observacions')}" update="txtObservacions,comboObservacions"/>    
+                                </h:selectOneMenu>    
+                            </h:panelGrid> 
+                            <p:inputTextarea id="txtObservacions" value="#{mbMissatgeria.pendentSelected.comentari}" autoResize="false"  
+                                             rows="2" cols="90" maxlength="250" />
+                            </h:panelGrid>
+                            </p:panel>
+                                
+                        </p:tab>  
+
+                        <p:tab title="Enviats">  
+                           
+                                <p:dataTable id="enviats" first="0" var="sol" value="#{mbMissatgeria.listEnviats}" 
+                                             selectionMode="single" paginator="true" rows="10" rowsPerPageTemplate="5,10,20"
+                                     emptyMessage="No s'han trobat sol·licituds."
+                                     scrollable="false" rowKey="#{sol.id}">
+                                    <p:column>
+                                        <p:commandButton value="Edita" actionListener="#{mbMissatgeria.reedita(sol.id)}" 
+                                                         oncomplete="editadlg.show()" update=":dlg1 :formEdita"/>
+                                    </p:column>
+                                    <p:column headerText="Data entrevista" sortBy="#{sol.dataEntrevista}" >
+                                        <h:outputText value="#{mbActivitats.date2str(sol.dataEntrevista)}"/>
+                                    </p:column>
+                                    <p:column headerText="Alumne/a" sortBy="#{sol.nomAlumne}" filterBy="#{sol.nomAlumne}" >
+                                        <h:outputText value="#{sol.nomAlumne}"/>
+                                    </p:column>
+                                    <p:column headerText="Grup" sortBy="#{sol.grupo}" filterBy="#{sol.grupo}" >
+                                        <h:outputText value="#{sol.grupo}"/>
+                                    </p:column>
+                                    <p:column headerText="Data contestat" sortBy="#{sol.dataContestat}" >
+                                        <h:outputText value="#{mbActivitats.date2str(sol.dataContestat)}"/>
+                                    </p:column>
+                                </p:dataTable>
+                             
+                        </p:tab>  
+
+                         
+
+                    </p:tabView>  
+
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+         
+         <p:dialog id="dlg1" widgetVar="editadlg" header="Edita: #{mbMissatgeria.enviatSelected.nomAlumne}">
+             <h:form id="formEdita">
+                 
+                 
+                      <h:panelGrid columns="1">
+                            <h:outputText value="Instruccions: #{mbMissatgeria.enviatSelected.instruccions}"
+                                              styleClass="instruccions"  rendered="#{mbMissatgeria.enviatSelected.instruccions.length()>0}"/>
+                        
+                                  
+                            <h:panelGrid columns="2" cellpadding="2">  
+                                <h:outputText value="Actitud:"/>
+                                <p:selectOneMenu id="comboActitud2" value="#{mbMissatgeria.selectedActitud}">
+                                        <f:selectItem itemLabel="Tria una opció" itemValue="" />  
+                                        <f:selectItems value="#{mbMissatgeria.comboActitud}"/>
+                                        <p:ajax event="change" listener="#{mbMissatgeria.comboEvent('actitud')}" update="txtActitud2,comboActitud2"/>    
+                                </p:selectOneMenu>    
+                            </h:panelGrid> 
+                            <p:message for="txtActitud2"/>
+                            <p:inputTextarea id="txtActitud2" value="#{mbMissatgeria.enviatSelected.actitud}" autoResize="false" required="true" 
+                                             requiredMessage="Aquest camp no pot ésser buid" rows="3" cols="90" maxlength="250" />
+                            <h:panelGrid columns="2" cellpadding="2">  
+                                <h:outputText value="Feina:"/>
+                                <h:selectOneMenu id="comboFeina2" value="#{mbMissatgeria.selectedFeina}">
+                                        <f:selectItem itemLabel="Tria una opció" itemValue="" />  
+                                        <f:selectItems value="#{mbMissatgeria.comboFeina}"/>
+                                        <p:ajax event="change" listener="#{mbMissatgeria.comboEvent('feina')}" update="txtFeina2,comboFeina2"/>    
+                                </h:selectOneMenu>    
+                            </h:panelGrid> 
+                            <p:message for="txtFeina2"/>
+                            <p:inputTextarea id="txtFeina2" value="#{mbMissatgeria.enviatSelected.feina}" autoResize="false" required="true" 
+                                             requiredMessage="Aquest camp no pot ésser buid" rows="3" cols="90" maxlength="250" />
+                            <h:panelGrid columns="2" cellpadding="2">  
+                                <h:outputText value="Notes:"/>
+                                <h:selectOneMenu id="comboNotes2" value="#{mbMissatgeria.selectedNotes}">
+                                        <f:selectItem itemLabel="Tria una opció" itemValue="" />  
+                                        <f:selectItems value="#{mbMissatgeria.comboNotes}"/>
+                                        <p:ajax event="change" listener="#{mbMissatgeria.comboEvent('notes')}" update="txtNotes2,comboNotes2"/>    
+                                </h:selectOneMenu>    
+                            </h:panelGrid> 
+                            <p:message for="txtNotes2"/>
+                            <p:inputTextarea id="txtNotes2" value="#{mbMissatgeria.enviatSelected.notes}" autoResize="false" required="true" 
+                                             requiredMessage="Aquest camp no pot ésser buid" rows="3" cols="90"   />
+                            <h:panelGrid columns="2" cellpadding="2">  
+                                <h:outputText value="Observacions:"/>
+                                <h:selectOneMenu id="comboObservacions2" value="#{mbMissatgeria.selectedObservacions}">
+                                        <f:selectItem itemLabel="Tria una opció" itemValue="" />
+                                        <f:selectItems value="#{mbMissatgeria.comboObservacions}"/>
+                                         <p:ajax event="change" listener="#{mbMissatgeria.comboEvent('observacions')}" update="txtObservacions2,comboObservacions2"/>    
+                                </h:selectOneMenu>    
+                            </h:panelGrid> 
+                            <p:inputTextarea id="txtObservacions2" value="#{mbMissatgeria.enviatSelected.comentari}" autoResize="false"  
+                                             rows="3" cols="90" maxlength="250" />
+                            </h:panelGrid>
+                 
+                 <h:panelGrid columns="2">
+                     <p:commandButton value="Cancel·la" oncomplete="editadlg.hide()"/>
+                     <p:commandButton value="Torna'l a enviar" actionListener="#{mbMissatgeria.sendAgain}" oncomplete="editadlg.hide();"/>
+                 </h:panelGrid>
+                       
+                       
+             </h:form>
+                 
+         </p:dialog>
+         
+     </f:view>
+</html>
+
+              

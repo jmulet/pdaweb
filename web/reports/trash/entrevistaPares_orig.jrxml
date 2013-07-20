@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="entrevistaPares" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="alumne" class="java.lang.String"/>
+	<parameter name="grup" class="java.lang.String"/>
+	<parameter name="data" class="java.lang.String"/>
+	<parameter name="tutor" class="java.lang.String"/>
+	<field name="profesor" class="java.lang.String"/>
+	<field name="materia" class="java.lang.String"/>
+	<field name="actitud" class="java.lang.String"/>
+	<field name="feina" class="java.lang.String"/>
+	<field name="notes" class="java.lang.String"/>
+	<field name="observacions" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="4" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="3" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="1" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="387" splitType="Stretch">
+			<rectangle>
+				<reportElement x="13" y="0" width="509" height="337"/>
+			</rectangle>
+			<textField>
+				<reportElement x="72" y="0" width="203" height="20"/>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{profesor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="355" y="0" width="167" height="20"/>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{materia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="298" y="0" width="57" height="20"/>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Matèria:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="37" y="0" width="35" height="20"/>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Per a:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="23" y="32" width="493" height="63"/>
+				<textElement textAlignment="Justified">
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["El professor "+$P{tutor}+" tutor del grup "+ $P{grup} + " sol·licita informació de l'alumne/a "+ $P{alumne} + " per una entrevista amb els pares que es realitzarà dia "+$P{data}+"."]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="23" y="95" width="493" height="234"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="36" y="110" width="57" height="20"/>
+				<textElement>
+					<font size="11" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Actitud:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="150" width="57" height="20"/>
+				<textElement>
+					<font size="11" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Feina:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="37" y="247" width="74" height="20"/>
+				<textElement>
+					<font size="11" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Comentaris:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="203" width="57" height="20"/>
+				<textElement>
+					<font size="11" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Notes:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="370" width="555" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="13" y="337" width="509" height="20"/>
+				<textElement>
+					<font size="11" isBold="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Us pregam que retorneu aquesta informació al casiller del tutor/a el més aviat possible.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="93" y="110" width="412" height="40"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{actitud}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="150" width="412" height="53"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{feina}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="203" width="412" height="44"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{notes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="247" width="394" height="82"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{observacions}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="5" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="14" splitType="Stretch"/>
+	</summary>
+</jasperReport>

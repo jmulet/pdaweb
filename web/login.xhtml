@@ -1,0 +1,193 @@
+<html xmlns="http://www.w3c.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+ <f:view locale="#{mbLogin.preferences.locale}">
+    <h:head>
+    <!--<link type="text/css" rel="stylesheet" href="primefaces-humanity/theme.css" />-->
+    <!-- <link  rel="apple-touch-startup-image" href="/images/galleria/pdaweb.png" />-->
+    <title>PDA WEB: Login</title>
+        
+    
+    <style type="text/css">              
+        .ui-widget, .ui-widget .ui-widget {
+            font-size: 80% !important;
+        }
+        
+        .centrat td{
+            text-align: center;
+        }
+        
+        .tabIcon0{
+            background-image: url("images/anuncis/sortida.gif") !important;
+            background-repeat: no-repeat !important;
+            background-color: lightgray !important;
+        }
+        .tabIcon1{
+            background-image: url("images/anuncis/reunio.gif") !important;
+            background-repeat: no-repeat !important;
+            background-color: lightgray !important;
+        }
+        .tabIcon2{
+            background-image: url("images/anuncis/event.gif") !important;
+            background-repeat: no-repeat !important;
+            background-color: lightgray !important;
+        }
+        .tabIcon3{
+            background-image: url("images/anuncis/new.gif") !important;
+            background-repeat: no-repeat !important;
+            background-color: lightgray !important;
+        }
+        .tabIcon4{
+            background-image: url("images/anuncis/pda.gif") !important;
+            background-repeat: no-repeat !important;
+            background-color: lightgray !important;
+        }
+    </style>
+    
+
+    
+</h:head>
+<meta name="apple-mobile-web-app-capable"  content="yes" />
+<meta name="viewport" content="user-scalable=no, width=device-width" />
+
+<!--
+<script>
+    document.addEventListener(
+    'touchmove',
+    function(e) {
+    e.preventDefault();
+    },
+    false
+    );
+</script>
+-->
+
+<h:body>
+
+    <p:layout fullPage="true">
+
+        <p:layoutUnit position="north" >
+            <center>
+             <p:panel header="#{msgs.loginTitle}"/>
+            </center>
+        </p:layoutUnit>
+
+        <p:layoutUnit position="center">
+            <h:form id="form">
+            <p:panel header="Login" >
+
+
+                <h:panelGrid columns="2" cellpadding="2">
+                    <h:outputLabel for="uname" value="Usuari" style="font-size:80%"/>
+                    <p:inputText id="uname" value="#{mbLogin.systemUser}" label="UserName"  style="font-size:80%"/>
+                    <h:outputLabel for="pwd" value="Contrasenya"  style="font-size:80%"/>
+                    <p:password id="pwd" value="#{mbLogin.password}"  style="font-size:80%"/>
+
+                    <h:outputLabel for="pwd2" value="Clau desbloqueig:" rendered="#{mbLogin.selectedUser.bloqueoMyClass}"  style="font-size:80%"/>
+                    <p:password  id ="pwd2" value="#{mbLogin.password2}" rendered="#{mbLogin.selectedUser.bloqueoMyClass}"  style="font-size:80%"/>
+
+                    <h:outputLabel id="tpda" value="Tipus PDA"  style="font-size:80%"/>
+                    <h:selectOneMenu value="#{mbLogin.tipusPDA}"  style="font-size:80%">  
+                        <f:selectItem itemLabel="Personal" itemValue="1"/>  
+                        <f:selectItem itemLabel="Guàrdia" itemValue="2"/>  
+                       <!-- <f:selectItem itemLabel="Administració" itemValue="3" itemDisabled="true"/>  -->
+                    </h:selectOneMenu> 
+
+
+
+                <p:commandButton type="submit" value="Entrar" action="#{mbLogin.login}" ajax="false"  style="font-size:80%"/>
+
+                </h:panelGrid>
+                <h:panelGrid columns="1" cellpadding="2">
+                    <p:messages showDetail="true" autoUpdate="true"/> 
+                    <!--<h:outputLink value="mobile/index.jsp"><h:outputText value="PDA Mobile"/></h:outputLink>-->
+                </h:panelGrid>
+
+
+            </p:panel>
+                
+            <p:panel id="novetats" header="Novetats PDAWEB">
+                
+                <ui:include src="whatsnew.xhtml"/> 
+               
+            </p:panel>
+
+                <!--
+                <center>
+               <h:panelGrid columns="1" cellspacing="3" styleClass="centrat">
+                   
+                <h:outputText value="Tot en una sola aplicació!"/>
+                <h:outputText value="...més de 6 funcionalitats"/>
+                <p:galleria effectSpeed="1000" showFilmstrip="false" panelHeight="150" panelWidth="200" autoPlay="yes">
+                    <p:graphicImage value="images/galleria/pdaweb.png"/>  
+                    <p:graphicImage value="images/galleria/passarllista.png"/>  
+                    <p:graphicImage value="images/galleria/actividades.png"/>  
+                    <p:graphicImage value="images/galleria/tutoria.png"/>  
+                    <p:graphicImage value="images/galleria/reserves.png"/>  
+                    <p:graphicImage value="images/galleria/mail.png"/>  
+                    <p:graphicImage value="images/galleria/missatgeria.png"/>  
+                </p:galleria>  
+                   
+            </h:panelGrid>
+            </center>
+            -->
+                
+            </h:form>
+        </p:layoutUnit>
+
+        <p:layoutUnit position="south" minSize="35">
+           
+            <h:outputText value="J. Mulet (c) 2011-13  -pdaweb#{mbLogin.version}- build#{mbLogin.build} - #{mbLogin.agent}" 
+                          style="font-size: 9px;"/>
+           
+        </p:layoutUnit>
+
+        <p:layoutUnit position="west" header="Anuncis" size="400" resizable="true" collapsible="true">
+            <h:form id="formwest">
+                
+                <h:panelGrid columns="4" cellpadding="0" cellspacing="2">
+                    <h:selectOneMenu id="categories" value="#{mbAnuncis.category}" style="width:100px; font-size:80%">  
+                            <f:selectItems value="#{mbAnuncis.opciones}"/>    
+                            <p:ajax listener="#{mbAnuncis.refreshAnuncis}" event="change" update=":formwest" />  
+                    </h:selectOneMenu> 
+                    <h:selectOneMenu value="#{mbAnuncis.limit}" style="font-size:80%">  
+                            <f:selectItem itemValue="5" itemLabel="5"/>
+                            <f:selectItem itemValue="10" itemLabel="10"/>
+                            <f:selectItem itemValue="15" itemLabel="15"/>
+                            <f:selectItem itemValue="20" itemLabel="20"/>
+                            <f:selectItem itemValue="*" itemLabel="*"/>
+                            <p:ajax listener="#{mbAnuncis.refreshAnuncis}" event="change" update=":formwest" />  
+                    </h:selectOneMenu> 
+                   <p:commandButton icon="ui-icon-search" actionListener="#{mbAnuncis.refreshAnuncis}" update=":formwest"  style="font-size:80%"/>
+                   <h:inputText value="#{mbAnuncis.search}" size="10"  style="font-size:80%"/>
+                </h:panelGrid>
+                <center>
+                <h:outputText value="No s'han trobat anuncis" rendered="#{mbAnuncis.listAnuncis.size()==0}"/>
+                </center>
+                <p:accordionPanel value="#{mbAnuncis.listAnuncis}" var="bean" dynamic="true" widgetVar="accordion" activeIndex="#{mbAnuncis.ordreAnunci}">
+                    <p:tab title=" #{mbLogin.date2str(bean.eventdate)} : #{bean.title}" 
+                           titletip="author: #{bean.author} - post date: #{mbLogin.date2str(bean.postdate)}"
+                           titleStyleClass="tabIcon#{bean.type}">
+                                <!--<p:editor value="#{bean.body}" controls="" disabled="true" width="450" />-->
+                        <h:outputText value="#{bean.body}" escape="false"/>
+                    </p:tab>
+                </p:accordionPanel>
+                
+               
+            </h:form>
+        </p:layoutUnit>
+  
+      
+
+    </p:layout>
+
+   
+    
+ 
+</h:body>
+
+ </f:view>
+
+</html>

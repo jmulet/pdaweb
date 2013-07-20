@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="autoritzacio_medicament" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="nomAlumne" class="java.lang.String"/>
+	<parameter name="dia" class="java.lang.String"/>
+	<parameter name="hora" class="java.lang.String"/>
+	<parameter name="medicament" class="java.lang.String"/>
+	<parameter name="autoritza" class="java.lang.String"/>
+	<parameter name="observacions" class="java.lang.String"/>
+	<parameter name="foto" class="java.lang.Object"/>
+	<parameter name="edat" class="java.lang.String"/>
+	<parameter name="grup" class="java.lang.String"/>
+	<parameter name="guardia" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="22" width="555" height="37"/>
+				<textElement textAlignment="Center">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Autorització de presa de medicaments]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="309" splitType="Stretch">
+			<staticText>
+				<reportElement x="53" y="58" width="115" height="19"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nom de l'alumne/a:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="168" y="58" width="290" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{nomAlumne}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="53" y="78" width="115" height="19"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Edat:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="168" y="78" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{edat}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="458" y="57" width="63" height="72"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<imageExpression><![CDATA[$P{foto}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="53" y="130" width="26" height="19"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="268" y="130" width="34" height="19"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hora:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="53" y="149" width="64" height="19"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Medicament:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="134" y="129" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{dia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="130" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{hora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="150" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{medicament}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="179" y="228" width="251" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{autoritza}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="53" y="228" width="126" height="19"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Autoritzat per:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="53" y="168" width="81" height="19"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observacions:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="134" y="168" width="377" height="59"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{observacions}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="79" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{grup}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="268" y="79" width="34" height="19"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grup:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="13" y="288" width="528" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="53" y="247" width="126" height="19"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Professor de guàrdia:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="179" y="246" width="251" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{guardia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="79" y="10" width="83" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Instruccions:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="10" width="296" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Dirigiu-vos amb aquesta autorització a consergeria.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="13" y="40" width="528" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="53" y="289" width="488" height="20"/>
+				<textElement>
+					<font size="10" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[L'autorització deixa de tenir validesa passats 15 minuts de la data i hora que hi figuren]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="53" y="266" width="126" height="19"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Subministrat per:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="5" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

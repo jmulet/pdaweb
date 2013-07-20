@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+ 
+    <ui:composition>
+        <p:idleMonitor timeout="#{mbLogin.preferences.pp_timeout*1000}">
+            <p:ajax event="idle" listener="#{mbLogin.logout}"/>  
+        </p:idleMonitor>
+       
+        <p:dialog header="Sessió caducada" widgetVar="sessionTimeOutDialog"
+                  modal="true" closable="false" width="400" visible="false">
+            <h:form>
+                <h:outputText value="La sessió ha caducat. Per favor, faci click per tornar a l'aplicació." />
+                <center>
+                    <p:commandButton id="confirmBackToLogin" value="Tornar a accedir" action="#{mbLogin.logout}"/>
+                </center>
+            </h:form>
+        </p:dialog>
+
+        <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>  
+
+        <p:dialog modal="false" widgetVar="statusDialog" header="Status" showHeader="false" 
+                  draggable="false" closable="false" resizable="false">  
+            <p:graphicImage value="/images/ajax-loader.gif" />  
+        </p:dialog>  
+    </ui:composition>
+</html>
+

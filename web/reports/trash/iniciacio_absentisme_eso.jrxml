@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="iniciacio_absentisme_eso.jrxml" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="4.0"/>
+	<property name="ireport.x" value="583"/>
+	<property name="ireport.y" value="2085"/>
+	<parameter name="nomAlumne" class="java.lang.String"/>
+	<parameter name="grup" class="java.lang.String"/>
+	<parameter name="data" class="java.lang.String"/>
+	<parameter name="profesorTutor" class="java.lang.String"/>
+	<parameter name="repetidor" class="java.lang.String"/>
+	<parameter name="nomPares" class="java.lang.String"/>
+	<parameter name="dataNaixement" class="java.lang.String"/>
+	<parameter name="adreca" class="java.lang.String"/>
+	<parameter name="telefon" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Josep\\Documents\\NetBeansProjects\\iesDigital\\fitxes\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="135" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="80" width="555" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Comic Sans MS" size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["ANNEX I"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="104" width="555" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Comic Sans MS" size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["ABSENTISME. FULL DE COMUNICACIÓ DE CASOS"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="92" y="43" width="483" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["C./ Antoni Ma. Alcover, s/n. - Telf. 971 54 86 00 - Fax. 971 54 63 04 - 07410 ALCÚDIA, Balears"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="3" y="63" width="552" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="92" y="23" width="483" height="20"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["I. E. S.  ALCÚDIA"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="37" y="19" width="40" height="44"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "imatges\\escudo.gif"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="603" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Transparent" x="273" y="6" width="242" height="96"/>
+			</rectangle>
+			<textField>
+				<reportElement x="37" y="6" width="55" height="30"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Alume/a:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="92" y="6" width="184" height="30"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{nomAlumne}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="128" y="36" width="148" height="18"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{dataNaixement}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="37" y="36" width="91" height="18"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Data de naixament:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="128" y="54" width="148" height="18"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{grup}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="37" y="54" width="91" height="18"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Curs"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="72" width="184" height="30"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{profesorTutor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="72" width="55" height="30"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Tutor/a:"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="33" y="6" width="240" height="96"/>
+			</rectangle>
+			<textField>
+				<reportElement x="350" y="36" width="165" height="18"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["ALCÚDIA"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="6" width="165" height="30"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" IES ALCÚDIA"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="276" y="54" width="235" height="18"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Professional de referència1 del centre educatiu:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="276" y="36" width="74" height="18"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Localitat:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="275" y="6" width="75" height="30"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Centre escolar:"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="33" y="102" width="240" height="73"/>
+			</rectangle>
+			<textField>
+				<reportElement x="35" y="122" width="236" height="18"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Data de la demanda:"+$P{data}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="273" y="102" width="242" height="73"/>
+			</rectangle>
+			<textField>
+				<reportElement x="275" y="108" width="75" height="18"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Adreça familiar:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="108" width="161" height="42"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{adreca}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="277" y="157" width="31" height="18"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Tel.:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="308" y="157" width="207" height="18"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{telefon}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="33" y="175" width="482" height="54"/>
+			</rectangle>
+			<textField>
+				<reportElement x="38" y="181" width="119" height="18"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Nom i llinatges dels pares:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="181" width="354" height="37"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{nomPares}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="239" width="477" height="32"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["DADES FAMÍLIA: 1. Normalitzada. 2. Multiproblemàtica. 3. Monoparental. 4. Greus problemes de relació. 5. Familiar amb malatia mental. 6. Família amb problemes socials. 7. Ètnia gitana. 8. Immigrants. 9. Altres"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="278" width="477" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["DADES ESCOLARS:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="303" width="477" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["És repetidor: Sí          No"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="323" width="477" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Valoració del seu procés d'ensenyament i aprenentage:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="37" y="382" width="205" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Accepta normalment les normes establertes?"
+]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="402" width="477" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Com valoraries la seva relació amb el professor?"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="37" y="422" width="477" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Com valoraries la seva relació amb els companys?"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="442" width="477" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Quin role té dins l'aula?"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="462" width="254" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Quins són els seus interesos vers les activitats escolars?"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="259" y="424" width="157" height="18"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[  Bona        Dolenta          Regular]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="259" y="402" width="157" height="18"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[  Bona        Dolenta          Regular]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="242" y="382" width="157" height="18"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Sí          No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="294" y="462" width="137" height="20"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Té Interès           No té interès"]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="106" y="304" width="10" height="10"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="143" y="304" width="10" height="10"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="255" y="384" width="10" height="10"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="292" y="384" width="10" height="10"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="338" y="464" width="10" height="10"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="418" y="464" width="10" height="10"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="288" y="404" width="10" height="10"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="340" y="404" width="10" height="10"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="397" y="404" width="10" height="10"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="340" y="426" width="10" height="10"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="397" y="426" width="10" height="10"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="288" y="426" width="10" height="10"/>
+			</rectangle>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="17" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="47" splitType="Stretch">
+			<textField>
+				<reportElement x="33" y="17" width="368" height="17"/>
+				<textElement textAlignment="Justified">
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["2. Municipis que tenen organitzats els Serveis Socials per sectors"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="33" y="0" width="495" height="17"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["1. El professional amb el qual s'ha de posar en contacte el/la TS de l'EOEP o dels SS"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="38" splitType="Stretch"/>
+	</summary>
+</jasperReport>

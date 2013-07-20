@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3c.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:view locale="#{mbLogin.preferences.locale}">
+    <h:head>
+        <title>Reserves d'aules i material</title>
+        
+           <style type="text/css">
+            .disponible{
+                background-color: #CCFFCC !important;
+                background-image: none !important;
+                color: #000000 !important;
+            }           
+            .ocupat{
+                background-color: #FFB2B2 !important;
+                background-image: none !important;
+                color: #000000 !important;}
+                
+           .highlight-calendarf a {
+             font-weight:bold !important;
+            color: red !important; 
+            }          
+            #northpanel{z-index:2 !important;}
+            #northpanel div{overflow: visible;}
+        </style>
+        
+          
+        <script type="text/javascript">
+        var specialDays = null;
+        jQuery(function () {
+            specialDays = <h:outputText value = "#{mbLogin.diesFestius}"/> ;
+            window.setTimeout('bindEventsHighlights()',500);
+        });
+        </script>
+        
+    </h:head>
+    <h:body>
+               
+      <ui:include src="./timeout.xhtml"/>
+     
+      <p:layout style="min-width:400px;min-height:300px;" id="layout" fullPage="true">
+
+            <p:layoutUnit id="northpanel" position="north" resizable="true" size="65" minSize="40" maxSize="200">
+                <h:form id="formnorth">   
+                    <ui:include src="./menu.xhtml"/>                  
+                </h:form>
+            </p:layoutUnit>
+
+            
+            <p:layoutUnit position="center" resizable="false" header="#{msgs.reserves}">
+                
+                <h:form id="formcenter">  
+
+                
+                <h:panelGrid id="novaReserva" columns="1" cellpadding="2">
+                
+                          
+                    <h:panelGrid columns="4" cellpadding="2" cellspacing="5">
+                        
+                    <p:commandButton action="#{mbReserves.cancelaWiz}" value="Cancel·la"
+                                    ajax="false" icon="ui-icon-close"/>
+                        
+                    <p:commandButton action="#{mbReserves.backStep}" value="Anterior"
+                                    icon="ui-icon-arrowthick-1-w" update="@all" global="false"/>
+                    <p:commandButton action="#{mbReserves.nextStep}" value="Següent"
+                                    icon="ui-icon-arrowthick-1-e" update="@all" global="false"/>
+                    
+                    </h:panelGrid>
+                    
+                    <p:panel id="stepRecurs" header="Tria Recurs" rendered="#{mbReserves.currentStep==1}" style="heigth:100px">  
+
+                                     <h:panelGrid columns="2">
+                                         <h:outputText value="Tipus de recurs: " />  
+                                         <p:selectOneRadio value="#{mbReserves.tipusRecurs}">  
+                                                <f:selectItem itemLabel="Aules" itemValue="2" />  
+                                                <f:selectItem itemLabel="Material" itemValue="1" />     
+                                                 <p:ajax update="recursos" event="change"
+                                                    listener="#{mbReserves.updateRecursos}"/>  
+                                         </p:selectOneRadio>  
+                                     </h:panelGrid>
+                                            <p:selectOneListbox id="recursos" value="#{mbReserves.selectedRecurs}"  
+                                                 style="height:100px;width: 400px">  
+                                                        <f:selectItems value="#{mbReserves.listRecursos}"  
+                                                            var="item" itemLabel="#{item.descripcio}" itemValue="#{item.id}" />  
+                                           </p:selectOneListbox>  
+                        
+                          <p:messages id="msgrecurs" showDetail="true" autoUpdate="true"  redisplay="false" />
+                                    
+                   </p:panel>  
+                     
+                   <p:panel id="stepDia" header="Dia" rendered="#{mbReserves.currentStep==2}" style="heigth:100px" >  
+                           
+                           <h:outputText value="Les reserves es poden fer com a màxim amb una antelació de #{initParam['pdaweb.antelacioReserves']} dies."/>
+              
+                           <h:outputScript library="js" name="fcalendar.js"  target="head"/>                  
+                           <h:outputScript library="js" name="#{mbLogin.preferences.locale}-translation.js" target="head" />                       
+                           <p:calendar id="cal" value="#{mbReserves.diaReserva}" mode="inline" locale="#{mbLogin.preferences.locale}"
+                                       mindate="#{mbReserves.mindate}" maxdate="#{mbReserves.maxdate}" pages="2">
+                               <p:ajax event="dateSelect" listener="#{mbReserves.onDateSelect}" update="msgcal" global="false" />
+                           </p:calendar>    
+                           
+                           <p:messages id="msgcal" showDetail="true" autoUpdate="true" redisplay="false" />
+                           
+                       </p:panel>  
+               
+                    <p:panel id="stepHora" header="Hora" rendered="#{mbReserves.currentStep==3}" style="heigth:100px">  
+
+                            <h:outputText value="Torn:"/>
+                             <h:selectOneRadio value="#{mbReserves.tornReserva}">  
+                                    <f:selectItem itemLabel="Matí" itemValue="1" />  
+                                    <f:selectItem itemLabel="Tarda" itemValue="2" />    
+                                    <p:ajax event="change" listener="#{mbReserves.updateDispo}" update="dispo"/>
+                            </h:selectOneRadio> 
+                        
+                    <p:dataTable id="dispo" value="#{mbReserves.listDispo}" var="dispo" 
+                                 rowStyleClass="#{dispo.disponible?'disponible':'ocupat'}">
+                                         
+                                 <p:column headerText="Tria">
+                                     <p:selectBooleanCheckbox value="#{dispo.triat}" disabled="#{!dispo.disponible}">
+                                         <p:ajax update=":formcenter" global="false"/>
+                                     </p:selectBooleanCheckbox>
+                                         
+                                 </p:column>
+                                <p:column headerText="">
+                                     <h:outputText value="#{dispo.idHora}a"/>
+                                 </p:column>
+                                 <p:column headerText="Hora">
+                                     <h:outputText value="#{dispo.hora}"/>
+                                 </p:column>
+                                 <p:column headerText="Estat">
+                                     <h:outputText value="#{dispo.comment}"/>
+                                 </p:column>
+                                
+                                 
+                    </p:dataTable>
+           
+                       <p:messages id="msghores" showDetail="true" autoUpdate="true"  redisplay="false" />
+                   </p:panel>  
+                   
+                   <p:panel id="stepConfirmacio" header="Confirmació" rendered="#{mbReserves.currentStep==4}" style="heigth:100px">  
+                               
+                               <h:panelGrid columns="1"> 
+                               <h:outputText value="El professor #{mbLogin.selectedUser.nombre}"/>
+                               <h:outputText value=" està a punt de realitzar la següent reserva:"/>
+                               </h:panelGrid>
+                       
+                               <h:panelGrid columns="2"> 
+                               <h:outputText value="Tipus de recurs:"/>
+                               <h:outputText value="#{mbReserves.tipusRecurs==2?'AULES':'MATERIAL'}"/>
+                               <h:outputText value="Recurs:"/>
+                               <h:outputText value="#{mbReserves.selectedRecursDesc}"/>
+                               <h:outputText value="Dia:"/>
+                               <h:outputText value="#{mbLogin.date2str(mbReserves.diaReserva)}"/>
+                               <h:outputText value="Hores:"/>
+                               <h:outputText value="#{mbReserves.horesTriades}"/>
+                               </h:panelGrid>
+                               
+                               <h:panelGrid columns="1">
+                               <h:outputText value="Especificau el motiu de la reserva:" style="font-weight:bold"/>
+                               <p:inputTextarea autoResize="false" value="#{mbReserves.motiuReserva}" 
+                                                cols="30" rows="3" maxlength="#{initParam['pdaweb.maxlength.reserves']}"/>
+                               
+                               <p:commandButton value="Realitza la reserva" action="#{mbReserves.doReserva}" ajax="false"/>
+                               </h:panelGrid>
+                              
+                    </p:panel>  
+
+              
+                </h:panelGrid>
+
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+
+    </h:body>
+    </f:view>
+</html>
+
+              

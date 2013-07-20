@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:view locale="#{mbLogin.preferences.locale}">
+    <h:head>
+        <title>PDA WEB: Notes</title>
+        <style>
+            #northpanel{z-index:2 !important;}
+            #northpanel div{overflow: visible;}
+        </style>
+    </h:head>
+    <h:body>
+
+           <ui:include src="./timeout.xhtml"/>
+
+        
+           <h:form>
+           <p:growl id="growl2" showDetail="true"/>  
+           </h:form>
+            
+            <p:layout style="min-width:400px;min-height:300px;" id="layout" fullPage="true">
+                <p:layoutUnit id="northpanel" position="north" resizable="true" size="110" minSize="40" maxSize="200">
+                <h:form>
+                       <ui:include src="./menu.xhtml"/>
+
+                                           
+                    <h:outputText value="    Tria Classe:"/>
+                    <h:selectOneMenu id="clases" value="#{mbNotes.selectedClase}" >  
+                        <f:selectItem itemLabel="Tria una opció" itemValue="" />  
+                        <f:selectItems value="#{mbNotes.clasesProfe}"/>    
+                        <p:ajax listener="#{mbNotes.loadAlumnes}" event="change" update="form" process="@this" />  
+                    </h:selectOneMenu>  
+                     <h:outputText value="    Avaluacions:"/>
+                    <h:selectOneMenu id="avaluacions" value="#{mbNotes.selectedAvaluacio}" >  
+                        <f:selectItem itemLabel="Tria una opció" itemValue="" />  
+                        <f:selectItems value="#{mbNotes.avaluacions}"/>    
+                        <p:ajax listener="#{mbNotes.loadAlumnes}" event="change" update="form" process="@this" />  
+
+                    </h:selectOneMenu>  
+
+                </h:form>
+                </p:layoutUnit>
+                 <p:layoutUnit position="center" resizable="true" size="110" minSize="40" maxSize="200"
+                               header="#{msgs.notes}">
+                     <h:form id="form">
+                         
+                        <h:panelGrid columns="1" cellpadding="2"> 
+                        <p:commandButton id="myself" value="#{mbNotes.caption}" actionListener="#{mbNotes.onEditSave}" 
+                                         update="llistat,myself" rendered="#{mbNotes.selectedAvaluacio!='' and mbNotes.selectedClase!=''}"/>
+                             
+                         
+                        <p:dataTable id="llistat" var="alumn" value="#{mbNotes.llistaClasse}"
+                                         selection="#{mbNotes.alumnoSelected}" selectionMode="single"
+                                         paginator="false" style="width:700;" 
+                                         emptyMessage="No s'han trobat alumnes."
+                                         scrollable="false" scrollHeight="400" rowKey="#{alumn.ordre}"
+                                         rendered="#{mbNotes.selectedAvaluacio!='' and mbNotes.selectedClase!=''}">
+
+                             <f:facet name="header">  
+                                Qualificacions #{mbNotes.avaluacioHeader}
+                             </f:facet> 
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Núm." />
+                                    </f:facet>
+                                    <h:outputText value="#{alumn.ordre}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Nom i llinatges" />
+                                    </f:facet>
+                                    <h:outputText value="#{alumn.nombre}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Calculat" />
+                                    </f:facet>
+                                    <h:outputText value="#{alumn.mitjana}" />
+                                </p:column>
+                            
+                               <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Nota final" />
+                                    </f:facet>                                  
+                                     <h:selectOneMenu value="#{alumn.selectedNota}" disabled="#{!mbNotes.editing}">  
+                                        <f:selectItem itemLabel="Tria una opció" itemValue=""/>  
+                                        <f:selectItems value="#{mbNotes.opcionsNotes}"/>    
+                                    </h:selectOneMenu>  
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
+                     </h:form>
+                 </p:layoutUnit>    
+            </p:layout>
+
+               
+    </h:body>
+    </f:view>
+</html>
+

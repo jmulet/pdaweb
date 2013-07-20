@@ -1,0 +1,94 @@
+<html xmlns="http://www.w3c.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+ 
+    <ui:composition>
+<style type="text/css">
+#movie1
+{
+	width: 700px;
+	height: 533px;
+}
+#movie2
+{
+	width: 700px;
+	height: 533px;
+}
+#movie3
+{
+	width: 700px;
+	height: 533px;
+}
+.feature
+{
+    font-size: 10px;
+}
+</style>
+        <h:form>
+            <p:fieldset id="fs8" legend="Missatges">  
+                <h:panelGrid columns="2" cellpadding="10">  
+                    <p:graphicImage value="/images/mail.png" width="70" />  
+                    <h:panelGrid columns="1" cellpadding="1">  
+                        <h:outputText  
+                            value="Els missatges milloren la funcionalitat de les antigues PDAs.
+                            Podreu escriure text amb format i, a més, adjuntar fitxers."
+                            styleClass="feature"/>  
+
+                    </h:panelGrid>
+                </h:panelGrid>  
+    </p:fieldset>  
+            <p:fieldset id="fs7" legend="Núvol">  
+                <h:panelGrid columns="2" cellpadding="10">  
+                    <p:graphicImage value="/images/cloud.png" width="70" />  
+                    <h:panelGrid columns="1" cellpadding="1">  
+                        <h:outputText  
+                            value="Amb el núvol podreu pujar i baixar fitxers,
+                            compartir-los amb altres professors, i fins i tot, 
+                            fer-los accessibles des de la intraweb."  styleClass="feature"/>  
+
+                    </h:panelGrid>
+                </h:panelGrid>  
+    </p:fieldset>  
+        <p:fieldset id="fs1" legend="Treballant amb etiquetes">  
+    <h:panelGrid columns="2" cellpadding="10">  
+        <p:graphicImage value="/images/etiquetes.png" width="70" />  
+        <h:panelGrid columns="1" cellpadding="1">  
+        <h:outputText  
+            value="Amb les etiquetes o conceptes, tindreu més ben classificades les activitats,
+            us facilitarà la tasca d'introduir noves activitats, i us permetrà
+            trobar mitjanes i notes de l'avaluació."  styleClass="feature"/>  
+       
+        </h:panelGrid>
+    </h:panelGrid>  
+    </p:fieldset>  
+    <p:fieldset id="fs2" legend="Mitjanes i notes d'avaluació">  
+    <h:panelGrid columns="2" cellpadding="10">  
+        <p:graphicImage value="/images/mitjanes.png"  width="70" />  
+         <h:panelGrid columns="1" cellpadding="1">  
+        <h:outputText  
+            value="Triau un grup i una avaluació. Fent un simple clic podreu trobar la
+            mitjana de totes les activitats assignades a un concepte o etiqueta. Si ho
+            desitjau podeu també obtenir fàcilment la nota de l'avaluació."  styleClass="feature"/>  
+
+         </h:panelGrid>
+    </h:panelGrid>  
+    </p:fieldset>  
+    <p:fieldset id="fs3" legend="Exportació a EXCEL">  
+    <h:panelGrid columns="2" cellpadding="10">  
+        <p:graphicImage value="/images/excelexport.png"  width="70" />  
+         <h:panelGrid columns="1" cellpadding="1">  
+        <h:outputText  
+            value="PDAWEB dóna la possibilitat d'exportar llistat d'alumnes i mitjanes
+            d'activitats directament a EXCEL. Increiblement simple." styleClass="feature"/>  
+         </h:panelGrid>
+    </h:panelGrid>  
+    </p:fieldset>  
+        </h:form>   
+        
+    </ui:composition>
+
+   
+    
+</html>

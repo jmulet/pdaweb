@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3c.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <f:view locale="#{mbLogin.preferences.locale}">
+    <h:head>
+        <title>Reserves d'aules i material</title>
+        
+           <style type="text/css">
+            .caducada{
+                background-color: #FBFBFC !important;
+                background-image: none !important;
+                color: #7B7B7B !important;
+            }    
+             #northpanel{z-index:2 !important;}
+            #northpanel div{overflow: visible;}
+        </style>
+        
+    </h:head>
+    <h:body>
+               
+      <ui:include src="./timeout.xhtml"/>
+     
+
+       <p:growl id="growl" showDetail="true"/> 
+        
+        
+        <p:layout style="min-width:400px;min-height:300px;" id="layout" fullPage="true">
+
+            <p:layoutUnit id="northpanel" position="north" resizable="true" size="65" minSize="40" maxSize="200">
+                <h:form id="formnorth">   
+                    <ui:include src="./menu.xhtml"/>                  
+                </h:form>
+            </p:layoutUnit>
+
+            
+            <p:layoutUnit position="center" header="#{msgs.reserves}">
+                
+                <h:form id="formcenter">  
+                    
+                     <center>
+                    <p:commandButton icon="ui-icon-plus" value="Nova Reserva" action="#{mbReserves.nova}" update=":novaReserva" process="@this" ajax="false" />
+                    </center>
+                    <h:panelGrid columns="2" cellpadding="2" style="text-align:center">
+                         <h:outputText value="Mostra passades"/>
+                         <p:selectBooleanCheckbox value="#{mbReserves.showCaducada}">
+                             <p:ajax listener="#{mbReserves.loadReserves}" update=":formcenter:reserves" global="false"/>
+                         </p:selectBooleanCheckbox>
+                    </h:panelGrid>
+           
+                    <p:dataTable id="reserves" emptyMessage="No s'han trobat reserves" value="#{mbReserves.listReserves}"
+                                 var="res" rowKey="#{res.id}" selectionMode="single" selection="#{mbReserves.selectedReserva}"
+                                 rowStyleClass="#{res.caducada?'caducada':null}">
+                    
+                                 <p:column headerText="" style="width:100px">
+                                     <p:commandButton icon="ui-icon ui-icon-trash" disabled="#{res.caducada}" oncomplete="confirmation.show()">
+                                           <f:setPropertyActionListener value="#{res}" target="#{mbReserves.selectedReserva}" />                                          
+                                     </p:commandButton>
+                                 </p:column>
+                                <p:column headerText="Recurs" sortBy="#{res.concepte}" style="width:100px">
+                                     <h:outputText value="#{res.concepte}"/>
+                                 </p:column>
+                                 <p:column headerText="Dia" sortBy="#{res.dia}" style="width:100px">
+                                     <h:outputText value="#{mbLogin.date2str(res.dia)}" style="width:100px"/>
+                                 </p:column>
+                                 <p:column headerText="Hora" sortBy="#{res.formatedhora}" style="width:100px">
+                                     <h:outputText value="#{res.formatedhora}"/>
+                                 </p:column>
+                                 <p:column headerText="Motiu" style="width:100px">
+                                     <h:outputText value="#{res.motiu}"/>
+                                 </p:column>
+                                 
+                    </p:dataTable>
+                   
+               
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+
+
+           <p:confirmDialog id="confirmationdlg" message="Estau segurs que voleu cancel·lar la reserva?"  
+                         header="Confirmació" severity="alert" widgetVar="confirmation">  
+            <h:form>
+                <p:commandButton value="Sí" oncomplete="confirmation.hide()"  
+                                 actionListener="#{mbReserves.delete}" update=":formcenter"/>  
+                <p:commandButton value="No" onclick="confirmation.hide()" type="button" />   
+            </h:form>
+        </p:confirmDialog>  
+    
+
+
+    </h:body>
+    </f:view>
+    
+</html>
+
+              

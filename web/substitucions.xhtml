@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+  
+    <f:view locale="#{mbLogin.preferences.locale}">
+    <h:head>
+        <title>PDA WEB: Guàrdies</title>
+        
+        <style type="text/css">
+               #northpanel{z-index:2 !important;}
+               #northpanel div{overflow: visible;}
+        </style>
+        
+    </h:head>
+    <h:body>
+          <ui:include src="./timeout.xhtml"/>
+       
+        
+            
+            <p:layout style="min-width:400px;min-height:300px;" id="layout" fullPage="true">
+                <p:layoutUnit id="northpanel" position="north" resizable="true" size="110" minSize="40" maxSize="200" >
+                <h:form>
+                    
+                    <ui:include src="./menug.xhtml"/>
+                     <h:panelGrid columns="6" cellpadding="4">
+                        <h:outputText value="#{msgs.dia}"/>
+                        <h:outputScript library="js" name="../resources/#{mbLogin.preferences.locale}-translation.js" target="head" />
+                        <p:calendar value="#{mbGuardies.dia}" pattern="dd/MM/yyyy" maxdate="#{mbLogin.avui}"
+                                    locale="#{mbLogin.preferences.locale}" showOn="button" effect="slideDown"> 
+                            <p:ajax event="dateSelect" listener="#{mbGuardies.changeDate}" update=":formmain"/> 
+                        </p:calendar>  
+                        <h:outputText value="#{msgs.hora}"/>
+                       <h:selectOneMenu id="hores2" value="#{mbGuardies.selectedHora}" >  
+                            <f:selectItems value="#{mbGuardies.opcionesHoras}"/>    
+                            <p:ajax event="change" listener="#{mbGuardies.fillTable}" update=":formmain"/>
+                        </h:selectOneMenu>  
+                          
+                    </h:panelGrid>
+                </h:form>
+                </p:layoutUnit>
+                
+                <p:layoutUnit position="center" header="PDA GUARDIA: Substitucions">
+                    <h:form id="formmain">
+                        
+                     
+                        <p:spacer width="10" height="10"/>
+                        <center>
+                        <p:commandButton value="Nova substitució" icon="ui-icon-plus" action="#{mbGuardies.gotoGuardies}"
+                                         ajax="false" disabled="#{mbGuardies.selectedHora==-1}"/>
+                        </center>
+                        <p:spacer width="10" height="10"/>
+                        
+                        <p:dataTable id="llista" var="prof" value="#{mbGuardies.substituciones}" selectionMode="single"
+                                     selection="#{mbGuardies.selectedSubstitucion}"
+                                     emptyMessage="No s'han trobat substitucions" rowKey="#{prof.idClase}">
+                            
+                             <p:column headerText="">
+                                 <p:commandButton icon="ui-icon ui-icon-trash" oncomplete="confirmation.show()"
+                                                  update=":confirmdlg">
+                                     <f:setPropertyActionListener value="#{prof}" target="#{mbGuardies.selectedSubstitucion}"/>
+                                 </p:commandButton>
+                             </p:column>
+                            
+                             <p:column headerText="Incidència">
+                                 <h:outputText value="#{prof.beanFProf.descripcion}"/>
+                             </p:column>
+                              <p:column headerText="Hora">
+                                  <h:outputText value="#{mbGuardies.formataHores(prof.inicio,prof.fin)}"/>
+                             </p:column>
+                             <p:column headerText="Professor/a" sortBy="#{prof.nombreProfesor}">
+                                 <h:outputText value="#{prof.nombreProfesor}"/>
+                             </p:column>
+                              
+                             <p:column headerText="Grup" sortBy="#{prof.grupo}">
+                                 <h:outputText value="#{prof.grupo}"/>
+                             </p:column>
+                            
+                             <p:column >
+                                 <p:commandButton icon="ui-icon-arrowreturn-1-e" value="Llista" 
+                                                  action="#{mbGuardies.gotoLlista}"
+                                                  disabled="#{prof.status==1}">
+                                      <f:setPropertyActionListener value="#{prof}" target="#{mbGuardies.selectedSubstitucion}"/>
+                                 </p:commandButton>
+                             </p:column>
+                         </p:dataTable>
+                     
+                        <p:spacer width="10" height="50"/>
+                        <p:panel header="Professors de Guàrdia i Zones" toggleable="true">
+                            
+ 
+                            <p:dataTable var="prof" value="#{mbGuardies.onduty}" emptyMessage="No es troben professors de guàrdia.">
+                            <p:column headerText="Professor/a">
+                                <h:outputText value="#{prof.nombreProfesor}"/>
+                            </p:column>
+                            <p:column headerText="Zona">
+                                <h:outputText value="#{prof.zonasGuardia}"/>
+                            </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                        
+                    </h:form>
+                    
+                </p:layoutUnit>
+            </p:layout>
+
+           
+        
+     
+ 
+        
+        <p:confirmDialog id="confirmdlg" message="Estau segur que voleu esborrar la substitució?" header="Confirmació" 
+                  widgetVar="confirmation" severity="alert">
+            <h:form>
+               
+                <p:commandButton value="No" onclick="confirmation.hide()"/>
+                <p:commandButton value="Sí" actionListener="#{mbGuardies.delSubstitucio}"
+                                 oncomplete="confirmation.hide()" update=":formmain"/>
+            </h:form>
+        </p:confirmDialog>
+        
+          </h:body>
+       
+</f:view>
+</html>

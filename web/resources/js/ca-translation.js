@@ -1,0 +1,27 @@
+PrimeFaces.locales['ca'] = {
+    closeText: 'Tancar',
+    prevText: 'Anterior',
+    nextText: 'Següent',
+    monthNames: ['Gener','Febrer', 'Marc', 'Abril', 'Maig', 'Juny', 'Juliol', 'Agost', 'Setembre', 'Octubre', 'Novembre', 'Desembre'],
+    monthNamesShort: ['Gen', 'Feb', 'Mar', 'Abr', 'Mai', 'Jun','Jul','Ago','Set','Oct','Nov','Dec'],
+    dayNames: ['Diumenge','Dilluns','Dimarts','Dimecres','Dijous','Divendres','Dissabte'],
+    dayNamesShort: ['Diu','Dil', 'Dim', 'Dix', 'Dij', 'Div', 'Dis'],
+    dayNamesMin: ['D','L','M','X','J','V','S'],
+    weekHeader: 'Setmana',
+    firstDay: 1,
+    isRTL: false,
+    showMonthAfterYear: false,
+    yearSuffix: '',
+    timeOnlyTitle: 'Només hora',
+    timeText: 'Temps',
+    hourText: 'Hora',
+    minuteText: 'Minut',
+    secondText: 'Segon',
+    currentText: 'Data actual',
+    ampm: false,
+    month: 'Mes',
+    week: 'Setmana',
+    day: 'Dia',
+    allDayText : 'Tot el dia'
+};
+

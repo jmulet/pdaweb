@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="247"/>
+	<style name="Titulo" forecolor="#000000" fontName="Arial" fontSize="14" isStrikeThrough="false">
+		<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3"/>
+	</style>
+	<style name="TituloDetalles" fontName="Arial" fontSize="12" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false">
+		<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3"/>
+	</style>
+	<style name="Cabecera1" forecolor="#000000" fontName="Arial" fontSize="10" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false">
+		<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3"/>
+	</style>
+	<style name="CabeceraGrupo1" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3"/>
+	</style>
+	<style name="CabeceraGrupo2" forecolor="#000000" fontName="Arial" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3"/>
+	</style>
+	<style name="CabeceraTabla1" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="CabeceraTabla2" fontName="Arial" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Cuerpo1" forecolor="#000000" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3"/>
+	</style>
+	<style name="CuerpoGrupo1" fontName="Arial" fontSize="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3"/>
+	</style>
+	<style name="CuerpoGrupo2" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3"/>
+	</style>
+	<style name="CuerpoTabla1" fontName="Arial" fontSize="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
+			<pen lineWidth="0.25" lineStyle="Dotted" lineColor="#000000"/>
+			<topPen lineWidth="0.25" lineStyle="Dotted" lineColor="#000000"/>
+			<leftPen lineWidth="0.25" lineStyle="Dotted" lineColor="#000000"/>
+			<bottomPen lineWidth="0.25" lineStyle="Dotted" lineColor="#000000"/>
+			<rightPen lineWidth="0.25" lineStyle="Dotted" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="CuerpoTabla2" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
+			<pen lineWidth="0.25" lineStyle="Dotted" lineColor="#000000"/>
+			<topPen lineWidth="0.25" lineStyle="Dotted" lineColor="#000000"/>
+			<leftPen lineWidth="0.25" lineStyle="Dotted" lineColor="#000000"/>
+			<bottomPen lineWidth="0.25" lineStyle="Dotted" lineColor="#000000"/>
+			<rightPen lineWidth="0.25" lineStyle="Dotted" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Pie1" forecolor="#000000" fontName="Arial" fontSize="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3"/>
+	</style>
+	<style name="Pie2" forecolor="#000000" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
+			<pen lineStyle="Solid"/>
+			<topPen lineStyle="Solid"/>
+			<leftPen lineStyle="Solid"/>
+			<bottomPen lineStyle="Solid"/>
+			<rightPen lineStyle="Solid"/>
+		</box>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[]]>
+	</queryString>
+	<field name="llinatge1" class="java.lang.String"/>
+	<field name="llinatge2" class="java.lang.String"/>
+	<field name="nom1" class="java.lang.String"/>
+	<field name="dataNaixament" class="java.util.Date"/>
+	<field name="edat" class="java.lang.Integer"/>
+	<field name="sexe" class="java.lang.String"/>
+	<field name="nacionalitat" class="java.lang.String"/>
+	<field name="paisNaixament" class="java.lang.String"/>
+	<field name="provinciaNaixament" class="java.lang.String"/>
+	<field name="localitatNaixament" class="java.lang.String"/>
+	<field name="dni" class="java.lang.String"/>
+	<field name="targetaSanitaria" class="java.lang.String"/>
+	<field name="adreca" class="java.lang.String"/>
+	<field name="municipi" class="java.lang.String"/>
+	<field name="localitat" class="java.lang.String"/>
+	<field name="cp" class="java.lang.String"/>
+	<field name="sgdUser" class="java.lang.String"/>
+	<field name="sgdPasswd" class="java.lang.String"/>
+	<field name="numRep" class="java.lang.Integer"/>
+	<field name="expedient" class="java.lang.Integer"/>
+	<field name="photo" class="java.lang.Object"/>
+	<group name="Alumno">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band height="180">
+				<printWhenExpression><![CDATA[true]]></printWhenExpression>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="CuerpoGrupo2" positionType="Float" x="319" y="67" width="135" height="15"/>
+					<box leftPadding="3">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{localitat}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="CuerpoGrupo2" positionType="Float" x="102" y="67" width="129" height="15"/>
+					<box leftPadding="3">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{adreca}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="CuerpoGrupo2" positionType="Float" x="319" y="37" width="135" height="15"/>
+					<box leftPadding="3">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{dni}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="CuerpoGrupo2" positionType="Float" x="319" y="82" width="135" height="15"/>
+					<box leftPadding="3">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{cp}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="CuerpoGrupo2" positionType="Float" x="102" y="82" width="129" height="15"/>
+					<box leftPadding="3">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{provinciaNaixament}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraGrupo2" positionType="Float" x="231" y="67" width="88" height="15"/>
+					<textElement markup="none">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Localidad"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraGrupo2" positionType="Float" x="231" y="37" width="88" height="15"/>
+					<textElement markup="none">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["DNI"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraGrupo2" positionType="Float" x="0" y="52" width="102" height="15"/>
+					<textElement markup="none">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Data Naixement"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraGrupo2" positionType="Float" x="0" y="67" width="102" height="15"/>
+					<textElement markup="none">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Domicilio"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraGrupo2" positionType="Float" x="0" y="97" width="102" height="15"/>
+					<textElement markup="none">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Telefono"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraGrupo2" positionType="Float" x="0" y="82" width="102" height="15"/>
+					<textElement markup="none">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Provincia"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraGrupo2" positionType="Float" x="231" y="82" width="88" height="15"/>
+					<textElement markup="none">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["C.P."]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+					<reportElement style="CabeceraGrupo2" positionType="Float" x="0" y="37" width="102" height="15"/>
+					<textElement markup="none">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Expedient"
+]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraGrupo2" positionType="Float" x="231" y="112" width="88" height="15"/>
+					<textElement markup="none">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Sexe"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="CuerpoGrupo2" positionType="Float" x="102" y="112" width="129" height="15"/>
+					<box leftPadding="3">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[""+$F{numRep}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraGrupo2" positionType="Float" x="0" y="112" width="102" height="15"/>
+					<textElement markup="none">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Num. Repeticions"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="CuerpoGrupo2" positionType="Float" x="319" y="112" width="135" height="15"/>
+					<box leftPadding="3">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{sexe}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="CuerpoGrupo2" positionType="Float" x="319" y="97" width="135" height="15"/>
+					<box leftPadding="3">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{targetaSanitaria}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraGrupo2" positionType="Float" x="231" y="97" width="88" height="15"/>
+					<textElement markup="none">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["NumeroTarjetaSanitaria"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraGrupo1" positionType="Float" x="0" y="165" width="555" height="15">
+						<printWhenExpression><![CDATA[]]></printWhenExpression>
+					</reportElement>
+					<textElement markup="none"/>
+					<textFieldExpression class="java.lang.String"><![CDATA["TutoresDelAlumno"]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/mm/yyyy">
+					<reportElement x="102" y="52" width="129" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{dataNaixament}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="454" height="26"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{llinatge1} + " " + $F{llinatge2} + ", " + $F{nom1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="102" y="37" width="129" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{expedient}]]></textFieldExpression>
+				</textField>
+				<image>
+					<reportElement x="470" y="37" width="75" height="90"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<imageExpression class="java.awt.Image"><![CDATA[$F{photo}]]></imageExpression>
+				</image>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="1"/>
+		</groupFooter>
+	</group>
+	<group name="Tutor">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band height="72">
+				<printWhenExpression><![CDATA[]]></printWhenExpression>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Grupo">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band height="54">
+				<printWhenExpression><![CDATA[]]></printWhenExpression>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<columnHeader>
+		<band height="50">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Titulo" stretchType="RelativeToBandHeight" x="0" y="0" width="555" height="50"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["FichaDelAlumno"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15">
+			<printWhenExpression><![CDATA[]]></printWhenExpression>
+		</band>
+	</detail>
+</jasperReport>

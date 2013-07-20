@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    
+    
+
+    
+    <ui:composition>
+    
+    <style type="text/css">
+      .preficon {
+        background: url('images/preferences_mini.png') no-repeat left center !important; 
+        height:22px !important;
+        width:22px !important;
+        }          
+      .pdaicon {
+        background: url('images/pdaswitcher_mini.png') no-repeat left center !important; 
+        height:22px !important;
+        width:22px !important;
+        }  
+ 
+        .ui-widget, .ui-widget .ui-widget {
+            font-size: #{mbLogin.preferences.pp_fontscale}% !important;
+        }
+    </style>
+        
+        
+      <p:dock proximity="40" position="top" rendered="#{mbLogin.preferences.pg_menutype==1}">  
+            <p:menuitem id="dock1" value="#{msgs.preferencies}" icon="/images/preferences.png" url="preferencesg.jsf"/>
+            <p:menuitem id="dock2" value="Substitucions" icon="ui-icon-refresh" url="substitucions.jsf"/>
+            <p:menuitem id="dock11" value="PDA Personal" icon="/images/pdaswitcher.png" action="#{mbLogin.switchPDA(0)}"/>
+            <p:menuitem id="dock4" value="#{msgs.sortir}" icon="/images/logout.png" action="#{mbLogin.logout}"/>  
+        </p:dock>     
+     
+        <!--menu style-->
+        
+    <p:menubar rendered="#{mbLogin.preferences.pg_menutype==2}">  
+            <p:menuitem value="#{msgs.preferencies}" icon="preficon" url="preferencesg.jsf"/>
+            <p:menuitem value="Substitucions" icon="ui-icon-refresh" url="substitucions.jsf"/>
+            <p:menuitem value="PDA Personal" icon="pdaicon" action="#{mbLogin.switchPDA(0)}"/>           
+            <p:menuitem value="#{msgs.sortir}" icon="ui-icon ui-icon-close" action="#{mbLogin.logout}"/>  
+    </p:menubar>  
+        
+    </ui:composition>
+    
+</html>

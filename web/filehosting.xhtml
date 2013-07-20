@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <f:view locale="#{mbLogin.preferences.locale}">
+    <h:head>
+        <title>PDA WEB: File Hosting</title>
+        
+     
+        <style type="text/css">
+        .ui-dialog {
+        position: absolute !important;
+        }
+        .panelColumns td {
+          vertical-align: top; 
+        }
+       .ui-widget-content .ui-datatable .ui-datatable-data td  table.panelgrid td{border-style:none;}
+          .highlight-calendarf a {
+             font-weight:bold !important;
+             color: red !important; 
+        }     
+        .headerGrid tr, .headerGrid td {
+             border-style: hidden !important;
+        }   
+        .ui-panel, .ui-panel-content{
+            border: none !important;
+        }
+        #northpanel{z-index:2 !important;}
+        #northpanel div{overflow: visible;}
+        
+        .treePanelGrid {
+            border: none !important;
+        } 
+        </style>
+          
+    </h:head>
+    <h:body>
+
+        
+         <h:outputScript name="js/jquery.zclip.min.js"/>
+         <script type="text/javascript">
+         $(document).ready(function(){
+
+                $('a#copy-description').zclip({
+                    path:"#{resource['js/ZeroClipboard.swf']}",
+                    copy:$('p#description').text()
+                });
+         });
+         </script>
+         
+          <ui:include src="./timeout.xhtml"/>
+          <h:outputScript library="js" name="ca-translation.js" target="head" />
+       
+          <p:growl id="growl2" showDetail="true" autoUpdate="true" />  
+         
+            
+            <p:layout style="min-width:400px;min-height:300px;" id="layout" fullPage="true">
+                <p:layoutUnit id="northpanel" position="north" resizable="true" size="70" minSize="40" maxSize="200">
+                <h:form>
+                    
+                    <ui:include src="./menu.xhtml"/>
+                     
+                   </h:form>
+                </p:layoutUnit>
+
+                                
+                
+                <p:layoutUnit position="center">
+   
+                        <p:layout>
+                            
+                            <p:layoutUnit position="west" header="Usuaris - Carpetes" resizable="true" collapsible="true" size="300">
+                                <h:form id="treeform">
+                                <p:tree id="treeSingle" value="#{mbFileHosting.root}" var="node"  
+                                        selectionMode="single"  
+                                        selection="#{mbFileHosting.selectedNode}"
+                                        styleClass="treePanelGrid">  
+                                       
+                                     <p:ajax event="select"  listener="#{mbFileHosting.onNodeSelect}" 
+                                             update=":centerform:list :centerform:path :southform"/>  
+                                    
+                                     <p:treeNode expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">  
+                                        <h:outputText value="#{node.name}" />  
+                                    </p:treeNode>  
+                                </p:tree>  
+                                </h:form>
+                            </p:layoutUnit>
+                            
+                            <p:layoutUnit position="center"  header="#{msgs.filehosting}">
+                                <h:form enctype="multipart/form-data">
+                                <p:fileUpload id="uploader" fileUploadListener="#{mbFileHosting.handleFileUpload}" multiple="true"
+                                              sizeLimit="#{mbFileHosting.fileLimit}" update=":centerform:list" />
+                                </h:form>
+                                <h:form id="centerform">
+                                <p:hotkey bind="ctrl+c" actionListener="#{mbFileHosting.onCopyAction}"/>
+                                <p:hotkey bind="ctrl+v" actionListener="#{mbFileHosting.onPasteAction}"
+                                          update=":centerform :treeform :growl2 :southform"/>
+                                 <p:hotkey bind="ctrl+x" actionListener="#{mbFileHosting.onCutAction}"
+                                          update=":centerform :treeform :growl2 :southform"/>
+                                  <p:hotkey bind="del" oncomplete="confirmation.show()" update=":confirmDialog"/>
+                                  
+                                <p:commandButton id="backbtn" icon="ui-icon-circle-arrow-w" actionListener="#{mbFileHosting.action}"  update=":centerform :treeform :growl2 :southform"/>   
+                                <p:commandButton id="nextbtn" icon="ui-icon-circle-arrow-e" actionListener="#{mbFileHosting.action}"    update=":centerform :treeform :growl2 :southform"/>
+                                <p:commandButton id="upbtn" icon="ui-icon-circle-arrow-n" actionListener="#{mbFileHosting.action}"   update=":centerform :treeform :growl2 :southform"/>
+                                <p:commandButton id="refreshbtn" icon="ui-icon-arrowrefresh-1-s" actionListener="#{mbFileHosting.action}"    update=":centerform :treeform :growl2 :southform"/>
+                                <p:commandButton id="homebtn" icon="ui-icon-home" actionListener="#{mbFileHosting.action}"  update=":centerform :treeform :growl2 :southform"/>
+                               
+                                <p:tooltip for="backbtn" value="Enrerra"/>
+                                <p:tooltip for="nextbtn" value="Endavant"/>
+                                <p:tooltip for="upbtn" value="Directori superior"/>
+                                <p:tooltip for="homebtn" value="Carpeta personal"/>
+                                <p:tooltip for="refreshbtn" value="Refresca"/>
+                                <p:tooltip for="mkdirbtn" value="Nova carpeta"/>
+                                <p:tooltip for="delete" value="Esborrar"/>
+                                <p:tooltip for="copy" value="Copiar"/>
+                                <p:tooltip for="cut" value="Retallar"/>
+                                <p:tooltip for="paste" value="Enganxa"/>
+                                
+                                <p:inputText id="path" value="#{mbFileHosting.currentPath.relativePath}" style="width:60%" readonly="true"/>
+                                <p:commandButton id="delete" icon="ui-icon-trash" oncomplete="confirmation.show()" update=":confirmDialog"/>
+                                
+                                <p:commandButton id="copy" icon="ui-icon-copy" actionListener="#{mbFileHosting.onCopyAction}"/>
+                                <p:commandButton id="cut" icon="ui-icon-scissors" actionListener="#{mbFileHosting.onCutAction}" update=":centerform :treeform :growl2 :southform"/>
+                                <p:commandButton id="paste" icon="ui-icon-clipboard" actionListener="#{mbFileHosting.onPasteAction}" update=":centerform :treeform :growl2 :southform"/>
+                                
+                                <p:commandButton id="mkdirbtn" icon="ui-icon-folder-collapsed" actionListener="#{mbFileHosting.onNewFolder}"
+                                                   update=":centerform :treeform  :southform"/>
+                                
+                                <p:dataTable id="list" var="f" value="#{mbFileHosting.fileList}"
+                                             selectionMode="multiple" selection="#{mbFileHosting.selectedFiles}"
+                                             rowKey="#{f.realPath}" emptyMessage="Directori buit">
+                                    
+                                    <p:ajax event="rowSelect" listener="#{mbFileHosting.displayURL}"
+                                            update=":southform"/>
+                                   
+                                    <p:column headerText="#{msgs.name}" sortBy="#{f.name}">
+                                        
+                                         
+                                        <p:commandButton id="idfile" icon="ui-icon-search"
+                                         action="#{mbFileHosting.onShowDocument(f)}" ajax="false"
+                                         rendered="#{!f.directory}"/>   
+                                        
+                                         <p:commandButton id="iddir" icon="ui-icon-search"
+                                         action="#{mbFileHosting.onShowDocument(f)}" ajax="false"
+                                         rendered="#{f.directory}"/> 
+                                         
+                                         <p:tooltip for="idfile" value="Visualitza"/>
+                                         <p:tooltip for="iddir" value="Mostra directori"/>
+                                        
+                                        <p:spacer width="10"/>
+                                        <h:graphicImage value="imagesdb?file=#{f.relativePath}"/>
+                                        <p:spacer width="5"/>
+                                        <p:inplace id="inplacename" editor="true" rendered="#{f.belongs}">
+                                    <p:ajax event="save" listener="#{mbFileHosting.onRename}"
+                                            update=":centerform :treeform">
+                                        
+                                    </p:ajax>
+                                     <p:ajax event="cancel" listener="#{mbFileHosting.onCancelRename}"
+                                            update=":centerform  :treeform">
+                                    </p:ajax>
+                                        <p:inputText id="name" value="#{f.name}">
+                                            <p:ajax listener="#{mbFileHosting.setCurrentRename(f)}"/>
+                                        </p:inputText>
+                                    </p:inplace>
+                                        
+                                        <p:tooltip for="inplacename" value="Renombrar"/>
+                                    
+                                        <h:outputText value="#{f.name}"  rendered="#{!f.belongs}"/> 
+                                   </p:column>
+                                    <p:column headerText="#{msgs.type}" sortBy="#{f.type}">
+                                        <h:outputText value="#{f.type}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msgs.size}" sortBy="#{f.size}">
+                                        <h:outputText value="#{f.size}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msgs.lastmodified}" sortBy="#{f.lastModified}">
+                                        <h:outputText value="#{f.lastModified}"/>
+                                    </p:column>
+                                  
+                                     
+                                </p:dataTable>
+                                </h:form>
+                                    
+                            </p:layoutUnit>
+                            
+                            
+                            <p:layoutUnit position="south" size="35">
+                                 <h:form id="southform">
+                                <h:outputText value="#{mbFileHosting.displayableURL}"/>
+                                </h:form>
+                            </p:layoutUnit>
+                               
+                             </p:layout>
+                        
+                     
+                    
+                        
+                </p:layoutUnit>
+                
+            </p:layout>
+           
+            <p:confirmDialog id="confirmDialog" message="Segur que voleu eliminar el fitxer?"  
+                             header="Confirmació" severity="alert" widgetVar="confirmation" closeOnEscape="true">  
+                                
+               <p:commandButton id="confirm" value="Sí" update=":centerform :treeform :growl2 :southform"
+                                oncomplete="confirmation.hide()"  
+                                actionListener="#{mbFileHosting.onDelAction}" />  
+               <p:commandButton id="decline" value="No" onclick="confirmation.hide()" type="button" />   
+                   
+           </p:confirmDialog>
+          
+          <p:dialog id="dlg" widgetVar="dialogURL" closable="true" modal="true" header="Public URL"
+                    width="500">  
+                                
+              <p:inputTextarea value="#{mbFileHosting.displayableURL}" readonly="true" style="width:100%"/> 
+                   
+           </p:dialog>
+    </h:body>
+    </f:view>
+</html>

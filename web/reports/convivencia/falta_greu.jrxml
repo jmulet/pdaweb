@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="falta_greu.jrxml" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="alumne" class="java.lang.String"/>
+	<parameter name="grup" class="java.lang.String"/>
+	<parameter name="motiu" class="java.lang.String"/>
+	<parameter name="data" class="java.lang.String"/>
+	<parameter name="expulsioNumDies" class="java.lang.String"/>
+	<parameter name="dies_Expulsio" class="java.lang.String"/>
+	<parameter name="alegacionsAlumne" class="java.lang.String"/>
+	<parameter name="comunicacioData" class="java.lang.String"/>
+	<parameter name="comunicacioHora" class="java.lang.String"/>
+	<parameter name="comunicacioParlatAmb" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Josep\\Documents\\NetBeansProjects\\iesDigital\\fitxes\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="127" splitType="Stretch">
+			<textField>
+				<reportElement x="44" y="92" width="467" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["EXPULSIÓ DE L’IES ALCÚDIA PER FALTA GREU"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="168" y="50" width="377" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["C/ Antoni Maria Alcover,sn 07410 Alcúdia (Illes Balears). Tel. 971548600 – Fax 971546304"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="168" y="63" width="343" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="168" y="21" width="246" height="29"/>
+				<textElement>
+					<font fontName="Times New Roman" size="24" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["IES ALCÚDIA"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="32" y="63" width="121" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["GOVERN DE LES ILLES BALEARS CONSELLERIA D'EDUCACIÓ I CULTURA"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="71" y="19" width="61" height="44"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "imatges\\logo-conselleria.gif"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="505" splitType="Stretch">
+			<textField>
+				<reportElement x="44" y="0" width="467" height="67"/>
+				<textElement textAlignment="Justified">
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["A la vista dels fets imputats a l'alumne "+($P{alumne}.isEmpty()?"____________________________":$P{alumne})+" del curs "+($P{grup}.isEmpty()?"____________":$P{grup})+" com a resultat de "+($P{motiu}.isEmpty()?"_____________________________________________________________________________________________________________":$P{motiu})+" s'estima procedent adoptar la següent mesura:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="75" width="467" height="40"/>
+				<textElement textAlignment="Justified">
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["EXPULSIÓ DE "+($P{expulsioNumDies}.isEmpty()?"______":$P{expulsioNumDies}) +" DIES, els dies "+$P{dies_Expulsio}+"."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="120" width="141" height="18"/>
+				<textElement textAlignment="Justified">
+					<font isItalic="false"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Al·legacions de l’alumne/a"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="254" width="467" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Alcúdia, "+$P{data}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="285" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["La  directora"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="334" width="160" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Sgt. Antònia Pilar Ferrà Mir"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="43" y="120" width="467" height="120"/>
+			</rectangle>
+			<textField>
+				<reportElement x="71" y="138" width="439" height="79"/>
+				<textElement textAlignment="Justified">
+					<font isItalic="false"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{alegacionsAlumne}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="72" y="217" width="225" height="23"/>
+				<textElement textAlignment="Justified">
+					<font isItalic="false"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Signat alumne/a:"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="32" y="368" width="491" height="59"/>
+			</rectangle>
+			<textField>
+				<reportElement x="43" y="377" width="467" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Comunicació per telèfon amb pare/mare"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="397" width="155" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Data: "+$P{comunicacioData}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="397" width="155" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Dia: "+$P{comunicacioHora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="354" y="397" width="155" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Parlat amb: "+$P{comunicacioParlatAmb}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="32" y="446" width="467" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Sr/Sra ________________________________ (pare/mare)"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="32" y="470" width="467" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Signatura:"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="42" y="13" width="467" height="30"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Nota: Aquest full s'ha de retornar a Prefectura d'Estudis signat pels pares el dia de la incorporació de l'alumne al centre."]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

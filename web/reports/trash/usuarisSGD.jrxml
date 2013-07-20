@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="usuarisSGD" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="5.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="200"/>
+	<style name="Heading 1" fontSize="16" isBold="true"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<subDataset name="Table Dataset 1"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="llinatge1" class="java.lang.String"/>
+	<field name="curs" class="java.lang.String"/>
+	<field name="usuari" class="java.lang.String"/>
+	<field name="pwd" class="java.lang.String"/>
+	<field name="llinatge2" class="java.lang.String"/>
+	<field name="nom1" class="java.lang.String"/>
+	<group name="grups" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{curs}]]></groupExpression>
+		<groupHeader>
+			<band height="22">
+				<textField>
+					<reportElement x="0" y="0" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{curs}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="29" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="20" forecolor="#FFFFFF" backcolor="#0000CC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Usuaris i contrasenyes del sistema SGD-WEB"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="455" y="0" width="100" height="20" forecolor="#CCFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false" isItalic="true"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<printWhenExpression><![CDATA[true]]></printWhenExpression>
+			<line>
+				<reportElement x="2" y="22" width="553" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="13" y="2" width="193" height="20"/>
+				<textElement/>
+				<text><![CDATA[Nom i llinatges]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="206" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Grup]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="306" y="2" width="121" height="20"/>
+				<textElement/>
+				<text><![CDATA[Usuari]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="427" y="2" width="114" height="20"/>
+				<textElement/>
+				<text><![CDATA[Contrasenya]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<textField>
+				<reportElement x="206" y="0" width="100" height="20"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{curs}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="306" y="0" width="121" height="20"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{usuari}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="427" y="0" width="114" height="20"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{pwd}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="13" y="0" width="193" height="20"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{llinatge1}+" "+$F{llinatge2}+", "+$F{nom1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="257" y="4" width="63" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Pàgina "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

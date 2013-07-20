@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="iniciacio_exp" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="alumne" class="java.lang.String"/>
+	<parameter name="grup" class="java.lang.String"/>
+	<parameter name="motiu" class="java.lang.String"/>
+	<parameter name="instructor" class="java.lang.String"/>
+	<parameter name="data" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Josep\\Documents\\NetBeansProjects\\iesDigital\\fitxes\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="db2" class="java.lang.Object"/>
+	<title>
+		<band height="802" splitType="Stretch">
+			<textField>
+				<reportElement x="39" y="84" width="467" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["INICIACIÓ DE L’ EXPEDIENT PER ACUMULACIÓ D'AMONESTACIONS GREUS"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="163" y="42" width="377" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["C/ Antoni Maria Alcover,sn 07410 Alcúdia (Illes Balears). Tel. 971548600 – Fax 971546304"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="163" y="55" width="343" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="163" y="13" width="246" height="29"/>
+				<textElement>
+					<font fontName="Times New Roman" size="24" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["IES ALCÚDIA"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="27" y="55" width="121" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["GOVERN DE LES ILLES BALEARS CONSELLERIA D'EDUCACIÓ I CULTURA"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="66" y="11" width="61" height="44"/>
+				<imageExpression><![CDATA[$P{SUBREPORT_DIR} +"imatges\\logo-conselleria.gif"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="27" y="114" width="467" height="67"/>
+				<textElement textAlignment="Justified">
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["La Direcció de l’IES Alcúdia, una vegada recollida la informació necessària, ACORDA incoar l’expedient disciplinari a l’alumne/a "+ $P{alumne} +"  del grup "+$P{grup}+"  per "+$P{motiu}+"."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="28" y="275" width="467" height="76"/>
+				<textElement textAlignment="Justified">
+					<font isItalic="false"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Amb aquest document queda vostè informat dels fets esmentats a efectes del que estableix l’article 63. 3 de l’ anomenat Decret 121/2010 de 10 de desembre pels quals s’estableixen els drets i els deures i les normes de convivència als centres docents no universitaris sostinguts amb fons públics de les Illes Balears. "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="28" y="456" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA["La  directora"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="28" y="534" width="124" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA["Antònia Pilar Ferrà Mir"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="28" y="660" width="467" height="44"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA["Normativa aplicable:   Decret  121/2010  de  10 de desembre  (BOE 187 de 23 de desembre de 2010)       RD 732/1995, de 5 de maig ( BOE 2 de juny de 1995). Llei Orgànica 10/2002, de 23 de desembre, de Qualitat d’Educació, articles 79 i 82."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="28" y="704" width="467" height="20"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA["Òrgan competent per a la resolució del procediment: la directora de l’IES Alcúdia"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="27" y="748" width="467" height="35"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA["NOTA: Aquests acords es comunicaran  a l’alumne/a o al seu representant, si és menor d’edat i al professor nomenat instructor."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="28" y="193" width="467" height="69"/>
+				<textElement textAlignment="Justified">
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["La instrucció de l’expedient està a càrrec de "+$P{instructor}+", professor/a de l’IES Alcúdia, tal com disposa l’article 54. 1 del RD 732/1995, de 5 de maig i el  Decret 121/2010 de 10 de  desembre  pel  que  s’estableixen els drets i deures dels alumnes i les normes de convivència als centres."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="28" y="376" width="467" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA["Alcúdia, "+$P{data}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="66">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="58"/>
+				<subreportParameter name="datainici"/>
+				<subreportParameter name="datafinal"/>
+				<dataSourceExpression><![CDATA[$P{db2}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "alumnat/listaIncidenciasAlumnos.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

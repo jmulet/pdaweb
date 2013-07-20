@@ -1,0 +1,338 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <f:view locale="#{mbLogin.preferences.locale}">
+    <h:head>
+        <title>PDA WEB: Missatges</title>
+        
+         <style type="text/css">
+            .unread {
+                background-color: #FFB84D !important;
+                background-image: none !important;
+                color: #000000 !important;
+            }
+            .disabled{
+                background-color: #DDDDDD !important;
+                background-image: none !important;
+                color: #000000 !important;
+                font-size: 10px !important;
+            }
+            
+            .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
+                white-space: normal !important;
+            }
+             #northpanel{z-index:2 !important;}
+             #northpanel div{overflow: visible;}
+            
+            .datalist-noborder .ui-widget-content {
+                border: none !important; 
+            }
+        </style>
+        
+    </h:head>
+    <h:body>
+        
+           
+        <ui:include src="./timeout.xhtml"/>
+        
+        <p:growl id="growl3" showDetail="true"/>  
+         
+        <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>  
+
+        <p:dialog modal="false" widgetVar="statusDialog" header="Status" showHeader="false" 
+                  draggable="false" closable="false" resizable="false">  
+            <p:graphicImage value="/images/ajax-loader.gif" />  
+        </p:dialog>  
+
+            <p:layout style="min-width:400px;min-height:300px;" id="layout" fullPage="true">
+                <p:layoutUnit id="northpanel" position="north" resizable="true" size="65" minSize="40" maxSize="200">
+                    <h:form id="formdock">
+                    <ui:include src="./menu.xhtml"/>
+                    </h:form>
+                </p:layoutUnit>
+
+                  <p:layoutUnit position="west" resizable="true" size="210" minSize="200" maxSize="1000"
+                                collapsible="true" header="#{msgs.sms}">
+                    <h:form id="formmenu">
+                       <center>
+                        <h:panelGrid columns="1" cellpadding="3">
+                          
+                            <p:commandButton icon="ui-icon-plus" value="Nou missatge" disabled="#{!mbLogin.selectedUser.enviarSMS}" 
+                                                    actionListener="#{mbSms.switcher(3)}" update=":formcentre"  style="width: 150px;"/>                           
+                            <p:commandButton icon="ui-icon-arrowreturn-1-s" value="Rebuts" actionListener="#{mbSms.switcher(0)}" update=":formcentre :formdock"  style="width: 150px;"/>
+                            <p:commandButton icon="ui-icon-arrowreturn-1-n" value="Enviats" actionListener="#{mbSms.switcher(1)}" update=":formcentre"  style="width: 150px;"/> 
+                            <p:commandButton icon="ui-icon-trash" value="Paperera" actionListener="#{mbSms.switcher(2)}" update=":formcentre"  style="width: 150px;"/> 
+                          
+                        </h:panelGrid>
+                       </center>
+                    </h:form>
+                </p:layoutUnit>
+
+                
+                <p:layoutUnit position="center" resizable="true" size="510" minSize="500" maxSize="1000"
+                              header="">
+                    <h:form id="formcentre">
+                        
+                            
+                            
+                            <!--inbox-->
+                            
+                            <p:dataTable id="inbox" rendered="#{mbSms.renderInbox}" var="sms" value="#{mbSms.listInbox}" 
+                                     selection="#{mbSms.inboxSelected}"  selectionMode="single" rowKey="#{sms.id}"
+                                     paginator="true" rows="10"
+                                     emptyMessage="No s'han trobat missatges."
+                                     rowStyleClass="#{sms.leido?null:'unread'}"> 
+                              
+                            <p:ajax event="rowToggle" listener="#{mbSms.checkLeido}" update=":formcentre:inbox,:formmenu,:formdock">  
+                                 <f:setPropertyActionListener value="#{mbSms.noleidos}" target="#{mbLogin.newmail}"/> 
+                             </p:ajax>
+                           
+                            <f:facet name="header">  
+                                Missatges Rebuts  
+                            </f:facet>    
+                                
+                               <p:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="Llegit" />
+                                    </f:facet>
+                                       <p:selectBooleanCheckbox  value="#{sms.leido}" style="width:100%" disabled="true"/>  
+                                </p:column>
+                                
+                                <p:column headerText="" >  
+                                  <p:commandButton  id="borrar" icon="ui-icon ui-icon-trash"  title="Moure a la paperera" rendered="#{sms.leido}" 
+                                                    action="#{mbSms.onMove2Trash}" update=":formcentre">  
+                                        <f:setPropertyActionListener value="#{sms}" target="#{mbSms.inboxSelected}"/> 
+                                     </p:commandButton>  
+                                     <p:tooltip for="borrar" value="Moure a paperera - #{sms.id}"/>
+                               </p:column>
+                                
+                                   
+                                <p:column sortBy="#{sms.remitente}" filterBy="#{sms.remitente}" filterMatchMode="contains">    
+                                    <f:facet name="header">
+                                        <h:outputText value="De" />
+                                    </f:facet>
+                                    <h:outputText value="#{mbSms.retalla(sms.remitente,24)}"/>
+                                </p:column>      
+                                <p:column filterBy="#{sms.texto}" filterMatchMode="contains" style="width:35%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Missatge"/>
+                                    </f:facet>
+                                    <p:rowToggler />  
+                                    <h:graphicImage value="images/clip.gif" rendered="#{sms.attachments.size()>0}"/>
+                                    <h:outputText value="#{mbSms.retalla(sms.texto,35)}"/>
+                                   </p:column >      
+                                <p:column sortBy="#{sms.fechaEnviado}">
+                                    <f:facet name="header">
+                                        <h:outputText value="Rebut" />
+                                    </f:facet>
+                                        <h:outputText value="#{mbLogin.date2str(sms.fechaEnviado)}"/>
+                                </p:column>
+                                
+                                 <p:rowExpansion>  
+                                     <p:panel id="expansion">  
+                                              
+                                        <h:outputText value="#{sms.richText}" escape="false" />
+                                        <p:separator title="Fitxers adjunts" rendered="#{sms.attachments.size()>0}" />
+                                        <p:dataList value="#{sms.attachments}" var="att" type="definition" rendered="#{sms.attachments.size()>0}" styleClass="datalist-noborder">  
+                                            <p:commandButton id="idfile" icon="ui-icon-search" action="#{mbSms.onShowDocument(att.attachment)}" ajax="false"/>
+                                            <h:outputText value="#{att.name}  (#{att.size})"/>
+                                             
+                                        </p:dataList>  
+                                     
+                                         <center>
+                                        <p:commandLink value="contestar" rendered="#{sms.selected and mbLogin.selectedUser.enviarSMS}" 
+                                                       action="#{mbSms.replay}" update=":formcentre">
+                                                <f:setPropertyActionListener value="#{sms}" target="#{mbSms.inboxSelected}"/> 
+                                        </p:commandLink>    
+                                        </center>
+                                            
+                                     </p:panel>  
+                                         
+                                 </p:rowExpansion>  
+                                
+                            </p:dataTable>
+                          
+                            
+                           <!--outbox-->
+                            
+                            <p:dataTable id="outbox" rendered="#{mbSms.renderOutbox}" var="sms" value="#{mbSms.listOutbox}" 
+                                     selection="#{mbSms.outboxSelected}"  selectionMode="single" rowKey="#{sms.id}"
+                                     paginator="true"  rows="10"
+                                     emptyMessage="No s'han trobat missatges."> 
+                              
+                             <p:ajax event="rowToggle" listener="#{mbSms.onOutboxRowToggle(sms)}" update="expansion2"/>  
+                          
+                                
+                            <f:facet name="header">  
+                                    Missatges Enviats  
+                            </f:facet>    
+                      
+                                <p:column sortBy="#{sms.destinatarios}" filterBy="#{sms.destinatarios}" filterMatchMode="contains">      
+                                   <f:facet name="header">
+                                        <h:outputText value="Destinataris" />
+                                    </f:facet>
+                                    <h:outputText value="Per a:#{mbSms.retalla(sms.destinatarios,30)}"/>
+                                </p:column >      
+                                <p:column filterBy="#{sms.texto}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText value="Missatge" />
+                                    </f:facet>
+                                        <p:rowToggler/>
+                                        <h:graphicImage value="images/clip.gif" rendered="#{sms.attachments.size()>0}"/>
+                                        <h:outputText value="#{mbSms.retalla(sms.texto,40)}"/>
+                                </p:column >      
+                                <p:column sortBy="#{sms.fechaEnviado}">
+                                    <f:facet name="header">
+                                        <h:outputText value="Enviat" />
+                                    </f:facet>
+                                        <h:outputText value="#{mbLogin.date2str(sms.fechaEnviado)}"/>
+                                </p:column>
+                                
+                                 <p:rowExpansion>  
+                                     <p:panel id="expansion2">  
+                                              
+                                        <h:outputText value="#{sms.richText}" escape="false" />
+                                        <p:separator rendered="#{sms.attachments.size()>0}" />
+                                        <p:dataList value="#{sms.attachments}" var="att" type="definition" rendered="#{sms.attachments.size()>0}" styleClass="datalist-noborder">  
+                                            <p:commandButton id="idfile" icon="ui-icon-search" action="#{mbSms.onShowDocument(att.attachment)}" ajax="false"/>
+                                            <h:outputText value="#{att.name}  (#{att.size})"/>
+                                            <p:tooltip for="idfile" value="#{att.attachment}"/>
+                                        </p:dataList>  
+                                     </p:panel>  
+                                         
+                                 </p:rowExpansion>
+                                
+                            </p:dataTable>
+                            
+                            
+              
+                            
+                            <!--trash-->
+                            
+                           <p:dataTable id="trash" rendered="#{mbSms.renderTrash}" var="sms" value="#{mbSms.listTrash}" 
+                                     selection="#{mbSms.trashSelected}"  selectionMode="single" rowKey="#{sms.id}"
+                                     paginator="true"  rows="10"
+                                     emptyMessage="No s'han trobat missatges."> 
+                               
+                               <f:facet name="header">  
+                                Missatges Esborrats
+                               </f:facet>    
+                             
+                              <p:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="Llegit" />
+                                    </f:facet>
+                                       <p:selectBooleanCheckbox  value="#{sms.leido}" style="width:100%" disabled="true"/>  
+                                </p:column>
+                                
+                                <p:column headerText="">  
+                                  <p:commandButton id="restablir"  icon="ui-icon ui-icon-refresh"
+                                    process="@this,trash" action="#{mbSms.onMove2Inbox}" title="Moure a rebuts" update=":formcentre" >  
+                                    <f:setPropertyActionListener value="#{sms}" target="#{mbSms.trashSelected}" /> 
+                                  </p:commandButton>  
+                                    
+                                    <p:tooltip for="restablir" value="Moure a rebuts - #{sms.id}"/>
+                               </p:column>
+                                
+                                     
+                                <p:column sortBy="#{sms.remitente}">    
+                                    <f:facet name="header">
+                                        <h:outputText value="De" />
+                                    </f:facet>
+                                    <h:outputText value="#{mbSms.retalla(sms.remitente,24)}"/>
+                                </p:column >      
+                                <p:column filterBy="#{sms.texto}">
+                                    <f:facet name="header">
+                                        <h:outputText value="Missatge" />
+                                    </f:facet>
+                                        <h:outputText value="#{mbSms.retalla(sms.texto,30)}"/>
+                                </p:column>      
+                                <p:column sortBy="#{sms.fechaEnviado}">
+                                    <f:facet name="header">
+                                        <h:outputText value="Rebut" />
+                                    </f:facet>
+                                        <h:outputText value="#{mbLogin.date2str(sms.fechaEnviado)}"/>
+                                </p:column>
+                                
+                            </p:dataTable>
+                            
+                            <!--nou missatge-->
+                            
+                            <p:panel id="nou"  header="Nou missatge" rendered="#{mbSms.renderNou}">
+                                
+                                <h:panelGrid columns="">
+                                 <p:pickList id="duallist" value="#{mbSms.dualList}" var="p" itemLabel="#{p.nombre}" itemValue="#{p}" showSourceFilter="true" 
+                                             converter="PrimeFacesPickListConverter" effect="slide" effectSpeed="fast">
+                                     <f:facet name="sourceCaption">Professors</f:facet>
+                                     <f:facet name="targetCaption">Destinataris</f:facet>
+                                 </p:pickList>
+                                    
+                                  <h:panelGrid columns="1" rendered="false">
+                                     <p:selectBooleanCheckbox itemLabel="Equip docent" value="#{mbSms.selectEquipDocent}" 
+                                                              disabled="#{!mbLogin.selectedUser.tutor}">
+                                            <p:ajax listener="#{mbSms.onToggleEquipDocent}" update=":formcentre"/>
+                                     </p:selectBooleanCheckbox>
+
+                                    <h:outputText value="Llistes:"/>
+                                        <h:selectOneMenu id="llistes" value="#{mbSms.selectedListas}">  
+                                            <f:selectItem itemLabel="#{msgs.triaopcio}" itemValue="0" />  
+                                            <f:selectItems value="#{mbSms.opcionesListas}"/>    
+                                            <p:ajax listener="#{mbSms.onSelectLista}" event="change" update=":formcentre"/>  
+                                        </h:selectOneMenu>  
+                                    </h:panelGrid>
+                                
+                                    
+                             
+                                 <h:panelGrid columns="1">    
+                                 <h:outputText value="Redacta missatge:"/>
+                                        <p:editor id="cos" value="#{mbSms.nouSmsText}" height="150"/> 
+                                 </h:panelGrid>   
+                                
+                             <p:commandButton id="envia" value="Envia" actionListener="#{mbSms.enviaSms}"
+                                               update=":formcentre :growl3"/>
+                             
+                             </h:panelGrid> 
+                                 
+                                <h:outputText value="Fitxers adjunts:"/>
+                                
+                                    <h:panelGrid columns="2">
+                                        <p:fileUpload fileUploadListener="#{mbSms.handleFileUpload}" auto="true" multiple="true" update=":growl3 llista"/>
+                                        <p:dataList id="llista" value="#{mbSms.attachments}"  type="definition" var="att" styleClass="datalist-noborder">
+                                            <p:column>
+                                                <p:commandButton icon="ui-icon-trash" process="@this" actionListener="#{mbSms.removeAttachment(att)}"
+                                                                 update="llista"/>
+                                                 <h:outputText value="#{att.name} (#{att.size})"/>
+                                            </p:column>
+                                        </p:dataList>
+                                    </h:panelGrid>
+                                     
+                            </p:panel>
+                            
+                      
+
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+
+                       
+        <p:dialog id="displaySmsdlg" header="Missatge" widgetVar="displaySms" closable="false">
+            <h:form>
+                <h:panelGrid columns="1" cellpadding="2">
+                    <h:inputTextarea readonly="true" value="#{mbSms.inboxSelected.richText}" rows="6" cols="25"/>
+                <center>
+                <p:commandButton value="Tanca" update=":formcentre,:formdock" oncomplete="displaySms.hide();"/>
+                </center>
+                </h:panelGrid >
+            </h:form>
+        </p:dialog>                     
+        
+       
+    </h:body>
+    </f:view>
+</html>
+

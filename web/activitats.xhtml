@@ -1,0 +1,579 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <f:view locale="#{mbLogin.preferences.locale}">
+    <h:head>
+        <title>PDA WEB: Activitats</title>
+ 
+        <style type="text/css">
+        .ui-dialog {
+        position: absolute !important;
+        }
+        .panelColumns td {
+          vertical-align: top; 
+        }
+       .ui-widget-content .ui-datatable .ui-datatable-data td  table.panelgrid td{border-style:none;}
+          .highlight-calendarf a {
+             font-weight:bold !important;
+             color: red !important; 
+        }     
+        .headerGrid tr, .headerGrid td {
+             border-style: hidden !important;
+        } 
+        #northpanel{z-index:2 !important;}
+        #northpanel div{overflow: visible;}
+        </style>
+        
+          
+        <script type="text/javascript">
+        var specialDays = null;
+        jQuery(function () {
+            specialDays = <h:outputText value = "#{mbLogin.diesFestius}"/> ;
+            window.setTimeout('bindEventsHighlights()',500);
+        });
+       </script>
+    </h:head>
+    <h:body>
+
+          <ui:include src="./timeout.xhtml"/>
+          <h:outputScript library="js" name="ca-translation.js" target="head" />
+          
+        
+           <p:growl id="growl2" showDetail="true" autoUpdate="true" />  
+         
+            
+            <p:layout style="min-width:400px;min-height:300px;" id="layout" fullPage="true">
+                <p:layoutUnit id="northpanel" position="north" resizable="true" size="110" minSize="40" maxSize="200">
+                <h:form>
+                    
+                    <ui:include src="./menu.xhtml"/>
+                     
+                    <h:panelGrid columns="4" cellspacing="10">
+                    <h:outputLabel for="clases" value="    Tria Classe:"/>
+                    <h:selectOneMenu id="clases" value="#{mbActivitats.selectedClase}" >  
+                        <f:selectItem itemLabel="Tria una opció" itemValue="" />  
+                        <f:selectItems value="#{mbActivitats.clasesProfe}"/>    
+                        <p:ajax listener="#{mbActivitats.loadActivitats}" event="change" update=":form,:formwest" process="@this" />  
+                    </h:selectOneMenu>  
+                    
+                    <h:outputLabel for="avaluacions" value="    Avaluacions:"/>
+                    <h:selectOneMenu id="avaluacions" value="#{mbActivitats.selectedAvaluacio}" >  
+                        <f:selectItem itemLabel="Totes" itemValue="" />  
+                        <f:selectItems value="#{mbActivitats.avaluacions}"/>    
+                        <p:ajax listener="#{mbActivitats.loadActivitats}" event="change" update=":form" process="@this" />  
+                    </h:selectOneMenu>  
+                    </h:panelGrid>
+
+                </h:form>
+                </p:layoutUnit>
+
+                                
+                
+                <p:layoutUnit position="center" resizable="true" size="510" minSize="500" maxSize="1000"
+                              header="#{msgs.activitats}">
+            
+                 
+
+                    <h:panelGrid columns="2" styleClass="panelColumns">
+                    <h:panelGrid columns="1">
+                    <p:panel header="Etiquetes">
+                    <h:form id="formwest">
+
+                    <h:panelGrid columns="1" cellspacing="3">
+                    
+                    <p:dataTable id="tableconcept" value="#{mbActivitats.listConceptes}" var="concept"
+                                  emptyMessage="No s'han trobat conceptes." selection="#{mbActivitats.selectedConcepte}"
+                                  selectionMode="single" rowKey="#{concept.id}"
+                                  rowStyleClass=".{background-color: #{concept.htmlColor} !important;}">  
+                    
+                      
+                           
+                        <p:column>
+                        
+                            <p:commandButton icon="ui-icon ui-icon-pencil"  
+                               oncomplete="editaConcepte.show()"  update=":editaConceptedlg,:formwest" global="false">                                  
+                             <f:setPropertyActionListener value="#{concept}" target="#{mbActivitats.selectedConcepte}"/>
+                            </p:commandButton>
+                            <h:outputLabel id="dragConcept" value="#{concept.nombre} (#{concept.porcentaje}%)" 
+                            style="background-color:\##{concept.htmlColor};color:white;font-weight:bold;font-size:11px"/>
+                                  
+                            <p:draggable for="dragConcept" helper="clone" revert="true"/>
+                                    
+                        </p:column>
+                    </p:dataTable>
+                    
+                    
+                        <p:commandButton icon="ui-icon-plus" value="Nova etiqueta" action="#{mbActivitats.preparaNouConcepte}"
+                                         oncomplete="editaConcepte.show();" update=":editaConceptedlg"   style="width: 150px;"/>
+                    </h:panelGrid>
+                        </h:form>
+                    </p:panel>
+                    
+                    <p:panel header="Navegació">
+                        <h:form>  
+                         <h:panelGrid columns="1" cellspacing="3">
+                        <p:commandButton icon="ui-icon-extlink" value="Llistat d'activitats" update=":form" ajax="false"  style="width: 150px;">
+                              <f:setPropertyActionListener value="1" target="#{mbActivitats.renderedPage}"/>
+                        </p:commandButton>
+                        
+                        <p:commandButton icon="ui-icon-extlink" value="Mitjanes per concepte" action="#{mbActivitats.cleanLlistatActivitats}" update=":form2" ajax="false"  style="width: 150px;">
+                              <f:setPropertyActionListener value="2" target="#{mbActivitats.renderedPage}"/>
+                        </p:commandButton>
+                        
+                        <p:commandButton icon="ui-icon-extlink" value="Notes d'avaluació" action="#{mbActivitats.cleanResumActivitats}" update=":form3" ajax="false"  style="width: 150px;">
+                              <f:setPropertyActionListener value="3" target="#{mbActivitats.renderedPage}"/>
+                        </p:commandButton>
+                         </h:panelGrid>
+                        </h:form>
+                </p:panel>
+                </h:panelGrid>
+                
+                 
+                <h:form id="form">
+                    <h:panelGrid id="form1" columns="1" rendered="#{mbActivitats.renderedPage==1}">
+                    <h:panelGrid columns="1" cellpadding="2"  style="text-align:center">
+                        
+                        <p:menuButton value="Nova activitat"  disabled="#{mbActivitats.selectedClase==''}">                                                   
+                             <c:forEach items="#{mbActivitats.listConceptes}" var="conc">
+                                 <p:menuitem id="c#{conc.id}" value="#{conc.nombre}" action="#{mbActivitats.cleanNova(conc.id)}" oncomplete="nova.show()"
+                                             update=":novadlg"/>
+                             </c:forEach>                        
+                        </p:menuButton>  
+                        
+                        
+                        <p:dataTable id="listact" var="act" value="#{mbActivitats.listact}" 
+                                     selection="#{mbActivitats.activitySelected}" selectionMode="single"
+                                     paginator="true" rows="10" rowsPerPageTemplate="5,10,20"
+                                     emptyMessage="No s'han trobat activitats."
+                                     scrollable="false" scrollHeight="400"
+                                     rowKey="#{act.ordre}"
+                                     rendered="#{mbActivitats.selectedClase!=''}"> 
+
+                            <p:ajax listener="#{mbActivitats.onActivitySelected}" event="rowSelect" process="@this"/>  <!-- event="click" -->
+                           
+                            <p:column headerText="" style="width:100px">  
+                                  <p:commandButton  icon="ui-icon ui-icon-trash" onclick="confirmation.show()" title="Esborrar">  
+                                    <f:setPropertyActionListener value="#{act}" target="#{mbActivitats.activitySelected}" /> 
+                                  </p:commandButton> 
+                                 
+                            </p:column>
+                                
+                                 <p:column headerText="Etiqueta" sortBy="#{act.concepto.nombre}" style="width:100px">
+                                     <p:outputPanel id="dropid">
+                                         <h:outputText value="#{act.concepto.nombre}" style="background-color:\##{act.concepto.htmlColor};color:white;font-weight:bold"/>                                        
+                                         <p:droppable>
+                                             <p:ajax listener="#{mbActivitats.onDrop}" update=":form"/>
+                                         </p:droppable>
+                                         
+                                     </p:outputPanel>
+                                     
+                                 </p:column>                
+
+                            <p:column headerText="Data" sortBy="#{act.fecha}" style="width:100px">
+                                <p:cellEditor>  
+                                    <f:facet name="output">  
+                                        <h:outputText value="#{mbActivitats.date2str(act.fecha)}" />
+                                        
+                                    </f:facet>  
+                                    <f:facet name="input">  
+                                        <p:calendar value="#{act.fecha}" pattern="dd/MM/yyyy" locale="ca" showOn="button"/> 
+                                    </f:facet>  
+                                </p:cellEditor>  
+                            </p:column>  
+                              
+
+
+                                <p:column headerText="Descripció" sortBy="#{act.descripcion}" style="width:100px">
+                                    <p:cellEditor>  
+                                        <f:facet name="output">  
+                                            <h:outputText value="#{act.descripcion}" >
+
+                                            </h:outputText>
+                                        </f:facet>  
+                                        <f:facet name="input">  
+                                            <h:inputTextarea value="#{act.descripcion}" style="width:100%"/>  
+                                             
+                                        </f:facet>  
+                                    </p:cellEditor>  
+                                </p:column>
+                            
+                                <p:column headerText="Web" style="width:100px">
+                                    <p:cellEditor>  
+                                        <f:facet name="output">  
+                                             <p:selectBooleanCheckbox id="verWeb" value="#{act.publicarWEB}" disabled="true" />
+                                             <p:tooltip for="verWeb" value="#{act.publicarWEB?'Visible pels pares':'Ocult pels pares'}"/>
+                                        </f:facet>  
+                                        <f:facet name="input">  
+                                             <p:selectBooleanCheckbox  value="#{act.publicarWEB}"  style="width:100%"/>  
+                                        </f:facet>  
+                                    </p:cellEditor>  
+                                </p:column>
+                            
+                            
+                                <p:column headerText="Avaluable/Pes" style="width:100px">
+                                    <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0" styleClass="panelgrid">
+                                             <p:selectBooleanCheckbox  value="#{act.evaluable}">
+                                                 <p:ajax update=":form" global="false" listener="#{mbActivitats.updateEvaluable(act.ordre)}"/>
+                                             </p:selectBooleanCheckbox>
+                                        <p:spinner id="pesoinput" value="#{act.peso}" min="0" max="100" suffix="%" size="4" rendered="#{act.evaluable}">
+                                            <p:ajax event="blur" listener="#{mbActivitats.updatePeso(act.ordre)}" global="false"/>
+                                        </p:spinner>
+                                    </h:panelGrid>
+                                            
+                                </p:column>
+                       
+                                <p:column headerText="Edita" style="width:100px">  
+                                  <p:commandButton  icon="ui-icon ui-icon-pencil" oncomplete="edita.show()" title="Edita" update="@all">  
+                                    <f:setPropertyActionListener value="#{act}" target="#{mbActivitats.activitySelected}" /> 
+                                  </p:commandButton>
+                               </p:column> 
+                            
+                                <p:column headerText="Assigna" style="width:100px">
+                                      <p:commandButton value="(#{act.totalasig})" 
+                                                     oncomplete="assignadlg.show();" update=":assignadlg0" title="n. d'alumnes" 
+                                                     action="#{mbActivitats.assignaActivitat}" global="false">
+                                        <f:setPropertyActionListener value="#{act}" target="#{mbActivitats.activitySelected}"/> 
+                                    </p:commandButton>
+                                </p:column>
+                            
+                                    </p:dataTable>
+
+                                    </h:panelGrid>
+                    </h:panelGrid>
+                 
+                    <h:panelGrid id="form2" columns="1" rendered="#{mbActivitats.renderedPage==2}">
+                    
+                        <h:panelGrid columns="3" cellspacing="3">
+                            <p:commandButton value="Print" icon="ui-icon-print" ajax="false" disabled="#{mbActivitats.chooseConcepte==''}">  
+                                <p:printer target="llistatActivitats" />  
+                            </p:commandButton>
+                            
+                          <p:commandButton value="Exporta Excel" icon="ui-icon-print" ajax="false" disabled="#{mbActivitats.chooseConcepte==''}">  
+                                <p:dataExporter type="xls" target="llistatActivitats" fileName="llistatActivitats"
+                                                 postProcessor="#{mbActivitats.postProcessXLS}"/>
+                          </p:commandButton>  
+                      
+                                
+                            <h:selectOneMenu id="concept" value="#{mbActivitats.chooseConcepte}">
+                                <f:selectItem itemValue=""  itemLabel="Tria un concepte"/>
+                                <f:selectItems value="#{mbActivitats.listConceptes}" var="concept" itemLabel="#{concept.nombre}" itemValue="#{concept.id}"/>
+                                <p:ajax event="change" listener="#{mbActivitats.loadLlistatActivitats}" update="llistatActivitats form2"/>
+                            </h:selectOneMenu>
+                        </h:panelGrid>
+                        
+                        
+                    
+                        <p:dataTable id="llistatActivitats" var="var" value="#{mbActivitats.columnesNotes}">  
+
+                        <f:facet name="header">  
+                                <h:outputText value="#{mbActivitats.headerTaula}"/>
+                        </f:facet>  
+                          
+                          
+                               
+                        <p:columns value="#{mbActivitats.columnesLabel}"  
+                                   var="column" columnIndexVar="colIndex">  
+                            <f:facet name="header">  
+                                <h:panelGrid columns="1" styleClass="headerGrid">
+                                <h:outputText value="#{column.header.line1}" style="font-size: 10px;"/>
+                                <h:outputText value="#{column.header.line2}" style="font-size: 10px;"/>
+                                <h:outputText value="#{column.header.line3}" style="font-size: 10px;"/>
+                                </h:panelGrid>
+                            </f:facet>  
+                            <h:outputText value="#{var[colIndex].value}" style="#{var[colIndex].style}"/>
+                        </p:columns>  
+                        
+                 </p:dataTable>             
+                 </h:panelGrid>
+                    
+                    
+                    
+                 <h:panelGrid id="form3" columns="1" rendered="#{mbActivitats.renderedPage==3}">
+                      
+                     <h:panelGrid columns="2" cellspacing="4">
+                     <p:commandButton value="Print" type="button" icon="ui-icon-print">  
+                                <p:printer target="mitjanesFinals" />  
+                       </p:commandButton>  
+                     
+                        <p:commandButton value="Exporta Excel" icon="ui-icon-print" ajax="false" >  
+                                <p:dataExporter type="xls" target="mitjanesFinals" fileName="notesAvaluacio"
+                                                 postProcessor="#{mbActivitats.postProcessXLS2}"/>
+                          </p:commandButton>  
+                 </h:panelGrid>
+                            
+                        <p:dataTable id="mitjanesFinals" var="var" value="#{mbActivitats.columnesNotes}">  
+
+                        <f:facet name="header">  
+                                <h:outputText value="#{mbActivitats.headerTaula}"/>
+                        </f:facet>  
+                            
+                         <p:columns value="#{mbActivitats.columnesLabel}"  
+                                   var="column" columnIndexVar="colIndex">  
+                            <f:facet name="header">  
+                                <h:panelGrid columns="1" styleClass="headerGrid">
+                                <h:outputText value="#{column.header.line1}" style="font-size: 10px;"/>
+                                <h:outputText value="#{column.header.line2}" style="font-size: 10px;"/>
+                                </h:panelGrid>
+                            </f:facet>  
+                            <h:outputText value="#{var[colIndex].value}" style="#{var[colIndex].style}"/>
+                        </p:columns>  
+                 </p:dataTable>           
+                 </h:panelGrid>
+                    
+              </h:form>
+              </h:panelGrid>
+             </p:layoutUnit>
+             
+            </p:layout>
+
+                 
+        
+        <p:dialog id="novadlg" header="Nova activitat" widgetVar="nova" modal="true"  dynamic="true">  
+            <h:form id="formnova">
+                <h:panelGrid columns="1" cellpadding="2">
+                
+                    <h:outputText value="Data"/>
+                    <h:outputScript library="js" name="fcalendar.js"  target="head"/>                  
+                    <h:outputScript library="js" name="#{mbLogin.preferences.locale}-translation.js" target="head" />    
+                    <p:calendar value="#{mbActivitats.novaActivitat.fecha}" pattern="dd/MM/yyyy" locale="#{mbLogin.preferences.locale}" showOn="button"/> 
+                    <h:outputText value="Descripció"/>
+                    <p:inputTextarea id="desc1" autoResize="false" maxlength="#{initParam['pdaweb.maxlength.activitats']}" 
+                                     value="#{mbActivitats.novaActivitat.descripcion}" cols="25" rows="3" required="true"
+                                     requiredMessage="Cal una descripció de l'activitat"/>
+                    <p:message for="desc1"/>
+                    
+                     <h:panelGrid columns="2" cellpadding="2">
+                    <h:panelGrid columns="1" cellpadding="2">
+                     <h:outputLabel for="concept" value="Concepte"/>
+                     <h:selectOneMenu id="concept" value="#{mbActivitats.novaActivitat.concepto.id}">
+                         <f:selectItems value="#{mbActivitats.listConceptes}" var="concept" itemLabel="#{concept.nombre}" itemValue="#{concept.id}"/>
+                    </h:selectOneMenu>
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="1" cellpadding="2">
+                    <h:outputLabel for="aval" value="Avaluació"/>
+                     <h:selectOneMenu id="aval" value="#{mbActivitats.novaActivitat.idEvaluacionesDetalle}">
+                        <f:selectItems value="#{mbActivitats.avaluacions}"/>    
+                    </h:selectOneMenu>
+                    </h:panelGrid>
+                    </h:panelGrid>
+                    
+                    
+                    <h:panelGrid columns="4" cellpadding="4">
+                        <h:outputText value="Web"/>
+                        <p:selectBooleanCheckbox  value="#{mbActivitats.novaActivitat.publicarWEB}" />  
+                        <h:outputText value="Seguiment"/>
+                        <p:selectBooleanCheckbox  value="#{mbActivitats.novaActivitat.seguimiento}" disabled="true"/>  
+                        <h:outputText value="Avaluable"/>
+                        <p:selectBooleanCheckbox  value="#{mbActivitats.novaActivitat.evaluable}">
+                            <p:ajax update="peso" global="false"/>
+                        </p:selectBooleanCheckbox> 
+                        <h:outputText value="Pes(%)"/>
+                        <p:spinner id="peso" value="#{mbActivitats.novaActivitat.peso}" size="4" 
+                                   min="0" max="100" stepFactor="5" disabled="#{!mbActivitats.novaActivitat.evaluable}"/> 
+                    </h:panelGrid>
+                </h:panelGrid>
+                    
+                    
+                <p:commandButton value="Cancel·la" onclick="nova.hide()" />  
+                <p:commandButton update=":formnova,:form" value="Accepta" action="#{mbActivitats.onSaveActivitat}" />   
+            </h:form>
+        </p:dialog>  
+        
+        
+        
+               
+          <p:dialog id="editadlg" header="Edita l'activitat" widgetVar="edita" modal="true" dynamic="true">  
+            <h:form>
+                <h:panelGrid columns="1" cellpadding="2">
+                
+                    <h:outputText value="Data"/>
+                    <p:calendar value="#{mbActivitats.activitySelected.fecha}" pattern="dd/MM/yyyy" locale="#{mbLogin.preferences.locale}" showOn="button"/> 
+                    <h:outputText value="Descripció"/>
+                    <p:inputTextarea autoResize="false" maxlength="#{initParam['pdaweb.maxlength.activitats']}"  value="#{mbActivitats.activitySelected.descripcion}" cols="25" rows="3"/>
+                                  
+                    <h:panelGrid columns="2" cellpadding="2">
+                    <h:panelGrid columns="1" cellpadding="2">
+                     <h:outputLabel for="concept" value="Concepte"/>
+                     <h:selectOneMenu id="concept" value="#{mbActivitats.activitySelected.concepto.id}">
+                         <f:selectItems value="#{mbActivitats.listConceptes}" var="concept" itemLabel="#{concept.nombre}" itemValue="#{concept.id}"/>
+                    </h:selectOneMenu>
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="1" cellpadding="2">
+                    <h:outputLabel for="aval" value="Avaluació"/>
+                     <h:selectOneMenu id="aval" value="#{mbActivitats.activitySelected.idEvaluacionesDetalle}">
+                        <f:selectItems value="#{mbActivitats.avaluacions}"/>    
+                    </h:selectOneMenu>
+                    </h:panelGrid>
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="4" cellpadding="4">
+                        <h:outputText value="Web"/>
+                        <p:selectBooleanCheckbox  value="#{mbActivitats.activitySelected.publicarWEB}" />  
+                        <h:outputText value="Seguiment"/>
+                        <p:selectBooleanCheckbox  value="#{mbActivitats.activitySelected.seguimiento}" disabled="true"/>  
+                        <h:outputText value="Avaluable"/>
+                        <p:selectBooleanCheckbox  value="#{mbActivitats.activitySelected.evaluable}">
+                             <p:ajax update="peso2" global="false"/>
+                        </p:selectBooleanCheckbox>
+                        <h:outputText value="Pes(%)"/>
+                        <p:spinner id="peso2" value="#{mbActivitats.activitySelected.peso}" size="4" 
+                                  min="0" max="100" stepFactor="5" disabled="#{!mbActivitats.activitySelected.evaluable}"/> 
+                            
+                    </h:panelGrid>
+                </h:panelGrid>
+                    
+                    
+                <p:commandButton value="Cancel·la" onclick="edita.hide()" />  
+                <p:commandButton update=":form,:growl2" value="Accepta" action="#{mbActivitats.onUpdateActivitat}" />   
+            </h:form>
+        </p:dialog>  
+        
+        
+        
+        
+        
+
+        <p:dialog id="assignadlg0" header="Assigna l'activitat #{mbActivitats.activitySelected.ordre} a..." widgetVar="assignadlg" 
+                  modal="true">  
+            <h:form id="formasig">
+                <h:panelGrid columns="1" cellpadding="2">
+                
+                    <p:dataTable id="assignacions" var="asig" value="#{mbActivitats.activitySelected.assignacions}" 
+                                     selection="#{mbActivitats.activityAlumnoSelected}" selectionMode="single"
+                                     paginator="false" 
+                                     emptyMessage="Aquesta activitat no està assignada a cap alumne."
+                                     scrollable="true" scrollHeight="300"
+                                     rowKey="#{asig.idAlumnos}"> 
+                       <p:column headerText="Tria" style="width:100px">
+
+                            
+                         <p:selectBooleanCheckbox id="checktria" value="#{asig.selected}" style="width:100%">
+                              <p:ajax update="assignacions:entrega,assignacions:nota"/>
+                            </p:selectBooleanCheckbox>
+                        </p:column>     
+
+                        <p:column headerText="Alumne" style="width:120px">                                 
+                            <h:outputText value="#{asig.nombre}" style="font-size:10px;"/>                             
+                        </p:column>  
+
+                        <p:column  headerText="Entrega" style="width:120px">
+                            <h:outputText id="entrega" value="#{mbActivitats.date2str(asig.fechaEntrega)}" style="font-size:10px;" rendered="#{asig.selected}"/>        
+                        </p:column>  
+
+                        <p:column headerText="Nota" style="width:120px">
+
+                            <p:spinner id="nota" value="#{asig.nota}" min="0" max="10" stepFactor="0.5" size="4" rendered="#{asig.selected and mbActivitats.activitySelected.evaluable}">
+                                <p:ajax event="change" listener="#{mbActivitats.setFechaEntrega(asig.ordre)}" update="assignacions:entrega"/>
+                            </p:spinner>
+                            
+                            <h:panelGrid columns="3" cellpadding="0" cellspacing="3" 
+                                         rendered="#{asig.selected and mbActivitats.activitySelected.evaluable and mbActivitats.notaRapida}">
+                            <p:commandLink value="0"  global="false" action="#{mbActivitats.setFechaEntrega(asig.ordre)}" update="assignacions:nota,assignacions:entrega">
+                                <f:setPropertyActionListener value="0" target="#{asig.nota}"/>
+                            </p:commandLink>
+                            <p:commandLink value="5" global="false"  action="#{mbActivitats.setFechaEntrega(asig.ordre)}" update="assignacions:nota,assignacions:entrega">
+                                <f:setPropertyActionListener value="5" target="#{asig.nota}"/>
+                            </p:commandLink>
+                            <p:commandLink value="10" global="false" action="#{mbActivitats.setFechaEntrega(asig.ordre)}" update="assignacions:nota,assignacions:entrega">
+                                <f:setPropertyActionListener value="10" target="#{asig.nota}"/>
+                            </p:commandLink>
+                            </h:panelGrid>
+                        </p:column>  
+
+
+                      </p:dataTable>
+
+                </h:panelGrid>
+                <h:panelGrid columns="7" cellpadding="5">
+                <h:outputText value="Tots"/>
+                <p:selectBooleanCheckbox value="#{mbActivitats.selectedall}" style="width:100%">
+                    <p:ajax listener="#{mbActivitats.onselectedall}" update=":formasig"/>
+                </p:selectBooleanCheckbox>
+             
+                <p:commandButton icon="refresh" value="Refresca" update=":formasig" />  
+                <p:commandButton icon="cancel" value="Cancel·la" onclick="assignadlg.hide()" />  
+                <p:commandButton icon="accept" update=":form" value="Accepta" actionListener="#{mbActivitats.doAssignacions}"
+                                 oncomplete="assignadlg.hide()" />   
+              
+                
+                <h:outputText value="Ràpid"/>
+                <p:selectBooleanCheckbox value="#{mbActivitats.notaRapida}" style="width:100%">
+                    <p:ajax update="assignacions"/>
+                </p:selectBooleanCheckbox>
+                  
+             
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>  
+
+          
+            <p:dialog id="editaConceptedlg" header="Edita concepte #{mbActivitats.selectedConcepte.nombre}" widgetVar="editaConcepte"
+                      modal="false"  dynamic="true">
+            <h:form id="formeditaConcepte">
+                
+                <h:panelGrid columns="1" cellpadding="2">
+                
+                <h:panelGrid columns="2" cellpadding="2">
+                    
+                <h:panelGrid columns="1" cellpadding="2">
+                    <h:outputLabel for="ccNombre" value="Nom del concepte:"/>
+                    <p:message for="ccNombre"/>
+                    <p:inputTextarea autoResize="false" id="ccNombre" value="#{mbActivitats.selectedConcepte.nombre}" maxlength="10"
+                                     disabled="#{mbActivitats.selectedConcepte.id==-1}" required="true" requiredMessage="Cal un nom pel concepte" />
+                    <h:outputLabel for="ccTpc" value="Percentatge assignat:"/>
+                    <p:spinner id="ccTpc" value="#{mbActivitats.selectedConcepte.porcentaje}" min="0" max="#{mbActivitats.maxAssignable}"
+                               disabled="#{mbActivitats.selectedConcepte.id==-1}"/>
+                </h:panelGrid>
+                    
+                 <h:panelGrid columns="1" cellpadding="2" rendered="#{mbActivitats.selectedConcepte.id !=-1}">
+                    <h:outputLabel for="ccText" value="Text activitat:"/>
+                    <p:inputTextarea autoResize="false" id="ccText" value="#{mbActivitats.selectedConcepte.textoActividad}" maxlength="50"/>
+                        <h:panelGrid columns="2" cellpadding="2">
+                        <h:outputLabel for="ccWeb" value="Web:"/>
+                        <p:selectBooleanCheckbox id="ccWeb" value="#{mbActivitats.selectedConcepte.web}"/>
+                        <h:outputLabel for="ccEval" value="Evaluable:"/>
+                        <p:selectBooleanCheckbox id="ccEval" value="#{mbActivitats.selectedConcepte.evaluable}"/>
+                        </h:panelGrid>
+                </h:panelGrid>
+
+                </h:panelGrid>    
+                
+                <h:outputLabel for="ccColor" value="Color etiqueta:" rendered="#{mbActivitats.selectedConcepte.id!=-1}"/>
+                <p:colorPicker id="ccColor" value="#{mbActivitats.selectedConcepte.htmlColor}" mode="inline" widgetVar="picker" rendered="#{mbActivitats.selectedConcepte.id!=-1}"/>
+                <p:separator/>
+                
+                <h:panelGrid columns="3" cellpadding="2">
+                    <p:commandButton value="Esborra" rendered="#{mbActivitats.selectedConcepte.id>0}" 
+                                     action="#{mbActivitats.esborraConcepte}" oncomplete="editaConcepte.hide();" update=":formwest,:form"/>
+                    <p:commandButton value="Cancel·la" oncomplete="editaConcepte.hide();"/>
+                    <p:commandButton value="Desa" rendered="#{mbActivitats.selectedConcepte.id !=-1}" 
+                                      action="#{mbActivitats.desaConcepte}" update=":formwest,:form"/>
+                </h:panelGrid>
+                
+                    
+                </h:panelGrid>
+            </h:form>
+            </p:dialog>    
+
+          
+          
+          
+            <p:confirmDialog id="confirmationdlg" message="Estau segurs que voleu esborrar l'activitat?"  
+                         header="Confirmació" severity="alert" widgetVar="confirmation" >  
+            <h:form>
+                <p:commandButton value="Sí" oncomplete="confirmation.hide()"  
+                                 actionListener="#{mbActivitats.deleteActivity}" update=":form,:growl2"/>  
+                <p:commandButton value="No" onclick="confirmation.hide()" type="button" />   
+            </h:form>
+        </p:confirmDialog>  
+          
+    </h:body>
+    </f:view>
+</html>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fnj28_2ncomunicat_batx.jrxml" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="nomAlumne" class="java.lang.String"/>
+	<parameter name="grup" class="java.lang.String"/>
+	<parameter name="data" class="java.lang.String"/>
+	<parameter name="profesorTutor" class="java.lang.String"/>
+	<parameter name="expd" class="java.lang.String"/>
+	<parameter name="horariVisita" class="java.lang.String"/>
+	<parameter name="nomPares" class="java.lang.String"/>
+	<parameter name="sancioDimecres" class="java.lang.String"/>
+	<parameter name="sancioExtraescolars" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Josep\\Documents\\NetBeansProjects\\iesDigital\\fitxes\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="135" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="80" width="555" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Comic Sans MS" size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["2n COMUNICAT DE FALTES INJUSTIFICADES"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="104" width="555" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Comic Sans MS" size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["PER A L'ALUMNAT DE BATXILLERAT"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="92" y="43" width="483" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["C./ Antoni Ma. Alcover, s/n. - Telf. 971 54 86 00 - Fax. 971 54 63 04 - 07410 ALCÚDIA, Balears"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="3" y="63" width="552" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="92" y="23" width="483" height="20"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["I. E. S.  ALCÚDIA"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="37" y="19" width="40" height="44"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "imatges\\escudo.gif"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="603" splitType="Stretch">
+			<textField pattern="">
+				<reportElement x="59" y="491" width="452" height="20"/>
+				<textElement>
+					<font fontName="Comic Sans MS" size="11"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Alcúdia, "+$P{data}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="33" y="0" width="522" height="20"/>
+				<textElement>
+					<font fontName="Comic Sans MS" size="11"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Srs: "+$P{nomPares}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="33" y="20" width="522" height="20"/>
+				<textElement>
+					<font fontName="Comic Sans MS" size="11"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Pares de l'alumne/a: "+$P{nomAlumne}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="33" y="40" width="522" height="19"/>
+				<textElement>
+					<font fontName="Comic Sans MS" size="11"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Grup: "+$P{grup}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="48" y="99" width="463" height="80"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Comic Sans MS" size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Per la present els inform que el seu fill/a, ha superat les 28 faltes d'assistència a classe injustificades, el dia i l'hora de les quals els comunic amb un full annex. Per això, aplicant el que estableix el Reglament d'Organització i Funcionament del centre, se'l sanciona amb:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="77" y="184" width="434" height="17"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Comic Sans MS" size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Romandre al centre 4 dimecres de 13:00 ha 14:30 h."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="77" y="205" width="434" height="35"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Comic Sans MS" size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Suspensió del dret a participar a 3 activitats complementàries o extraescolars."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="48" y="544" width="394" height="17"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Comic Sans MS" size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["El Tutor/La Tutora: "+$P{profesorTutor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="48" y="561" width="394" height="17"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Comic Sans MS" size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Horari de Visita: "+$P{horariVisita}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="33" y="67" width="522" height="31"/>
+				<textElement>
+					<font fontName="Comic Sans MS" size="11"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Benvolgut Srs,"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="59" y="184" width="18" height="17"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Comic Sans MS" size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sancioDimecres}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="59" y="206" width="18" height="17"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Comic Sans MS" size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sancioExtraescolars}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="57" y="184" width="18" height="17"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="57" y="206" width="18" height="17"/>
+			</rectangle>
+			<textField>
+				<reportElement x="48" y="240" width="463" height="47"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Comic Sans MS" size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["També els comunic que el Reglament d'Organització i Funcionament de l'IES Alcúdia a l'apartat 2.4.3. estableix que:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="48" y="287" width="463" height="93"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Comic Sans MS" size="11"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["La falta a classe de manera reiterada provoca la impossibilitat de l'aplicació correcta dels criteris generals d'avaluació contínua. Per tant, quan un alumne de batxillerat acumuli un nombre determinat de faltes, perdrà el dret d'avaluació contínua. La pèrdua d'avaluació contínua implica que l’alumne només serà avaluat amb un examen final de cada matèria a final de curs. El nombre de faltes que pot produir la pèrdua d'avaluació contínua són:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="75" y="380" width="436" height="94"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Comic Sans MS" size="11"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["a) Tenir el 50% de faltes justificades i injustificades d'una àrea en el termini d'un mes.\n"+
+"b) Tenir el 25% de faltes justificades i injustificades d'una àrea durant un trimestre.\n"+
+"c) Tenir 42 faltes injustificades en el total de les àrees."]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="39" y="284" width="475" height="190"/>
+			</rectangle>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="17" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="47" splitType="Stretch">
+			<textField>
+				<reportElement x="33" y="17" width="368" height="17"/>
+				<textElement textAlignment="Justified">
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Legislació aplicable: R.D. 732/1995 i ROF de l’IES Alcúdia."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="33" y="0" width="368" height="17"/>
+				<textElement textAlignment="Justified">
+					<font size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["V.P. El Cap d'Estudis"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="38" splitType="Stretch"/>
+	</summary>
+</jasperReport>

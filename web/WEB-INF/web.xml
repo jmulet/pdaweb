@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    <context-param>
+        <description>Idioma per defecte: ca, es, en</description>
+        <param-name>pdaweb.defaultLocale</param-name>
+        <param-value>ca</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>Image Servlet</servlet-name>
+        <servlet-class>org.iesapp.web.pdaweb.ImageServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>File download Servlet</servlet-name>
+        <servlet-class>org.iesapp.web.pdaweb.FileDownloadServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>JasperReports</servlet-name>
+        <servlet-class>net.sf.jasperreports.j2ee.servlets.ImageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.jsf</url-pattern>
+    </servlet-mapping>
+    <description>PDA per a la WEB, per J. Mulet (2011)</description>
+    <display-name>IES ALCUDIA - PDA WEB</display-name>
+    <servlet-mapping>
+        <servlet-name>Image Servlet</servlet-name>
+        <url-pattern>/imagesdb/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>JasperReports</servlet-name>
+        <url-pattern>/jasperreports</url-pattern>
+    </servlet-mapping>
+    <mime-mapping>
+        <extension>dynamiccontent</extension>
+        <mime-type>image/jpeg</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>jpeg</extension>
+        <mime-type>image/jpeg</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>jpg</extension>
+        <mime-type>image/jpeg</mime-type>
+    </mime-mapping>
+    <context-param>
+        <description>Aquesta EL expression permet que els usuaris puguin canviar dinamicament els temes</description>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>#{mbLogin.preferences.currentTheme}</param-value>
+    </context-param>
+    <context-param>
+        <description>Host a la database de fitxes</description>
+        <param-name>pdaweb.mysqlHost</param-name>
+        <param-value>localhost</param-value>
+    </context-param>
+    <context-param>
+        <description>Usuari de la database de fitxes</description>
+        <param-name>pdaweb.mysqlUser</param-name>
+        <param-value>root</param-value>
+    </context-param>
+    <context-param>
+        <description>Prefix Nom de la database de fitxes (sense any)</description>
+        <param-name>pdaweb.mysqlDBPrefix</param-name>
+        <param-value>iesdigital</param-value>
+    </context-param>
+    <context-param>
+        <description>Contrasenya de l'usuari de la base de fitxes</description>
+        <param-name>pdaweb.mysqlPwd</param-name>
+        <param-value> </param-value>
+    </context-param>
+    <context-param>
+        <description>Parameters for the connection to mysql (USE $ as separator) p1=v1$p2=v2, etc...</description>
+        <param-name>pdaweb.mysqlParams</param-name>
+        <param-value>zeroDateTimeBehavior=convertToNull</param-value>
+    </context-param>
+    <context-param>
+        <description>Segons d'inactivitat per caducar la sessió</description>
+        <param-name>pdaweb.sessionTimeout</param-name>
+        <param-value>120</param-value>
+    </context-param>
+    <context-param>
+        <description>Tema per defecte per a la PDA personal</description>
+        <param-name>pdaweb.defaultThemePP</param-name>
+        <param-value>glass-x</param-value>
+    </context-param>
+    <context-param>
+        <description>Tema per defecte per a la PDA de guàrdia</description>
+        <param-name>pdaweb.defaultThemePG</param-name>
+        <param-value>humanity</param-value>
+    </context-param>
+    <context-param>
+        <description>Nombre de dies màxim d'antelació en què es permet fer reserves</description>
+        <param-name>pdaweb.antelacioReserves</param-name>
+        <param-value>15</param-value>
+    </context-param>
+    <context-param>
+        <param-name>pdaweb.maxlength.incidencies</param-name>
+        <param-value>200</param-value>
+    </context-param>
+    <context-param>
+        <param-name>pdaweb.maxlength.activitats</param-name>
+        <param-value>200</param-value>
+    </context-param>
+    <context-param>
+        <param-name>pdaweb.maxlength.missatges</param-name>
+        <param-value>200</param-value>
+    </context-param>
+    <context-param>
+        <param-name>pdaweb.maxlength.reserves</param-name>
+        <param-value>100</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>
+    <context-param>
+        <description>Directory for file hosting/sharing. Leave it blank for default</description>
+        <param-name>pdaweb.fileHostingDir</param-name>
+        <param-value>D:\fileHosting</param-value>
+    </context-param>
+    <context-param>
+        <description>unlimited = no limit for updload 100k, 4m, 10g, etc.</description>
+        <param-name>pdaweb.fileHostingLimit</param-name>
+        <param-value>15m</param-value>
+    </context-param>
+    <context-param>
+        <description>Use clamscan antivirus for upload files. yes/no</description>
+        <param-name>pdaweb.fileHostingUseClamscan</param-name>
+        <param-value>yes</param-value>
+    </context-param>
+    <context-param>
+        <description>Host addr for clamscan socket</description>
+        <param-name>pdaweb.clamscanAddr</param-name>
+        <param-value>localhost</param-value>
+    </context-param>
+    <context-param>
+        <description>Port for clamscan socket</description>
+        <param-name>pdaweb.clamscanPort</param-name>
+        <param-value>3310</param-value>
+    </context-param>
+    <context-param>
+        <description>Host addr for clamscan timeout in seconds</description>
+        <param-name>pdaweb.clamscanTimeout</param-name>
+        <param-value>60</param-value>
+    </context-param>
+    <context-param>
+        <description>Path forhttp downloads</description>
+        <param-name>pdaweb.fileHostingDownloadPath</param-name>
+        <param-value>http://localhost:8080/pdaweb/cloud/</param-value>
+    </context-param>
+    <filter>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <servlet-name>Faces Servlet</servlet-name>
+    </filter-mapping>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/index.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/index.jsp</location>
+    </error-page>
+</web-app>

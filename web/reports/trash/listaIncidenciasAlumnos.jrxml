@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="14"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Titulo"/>
+	<style name="TituloDetalles"/>
+	<style name="Cabecera1"/>
+	<style name="CabeceraGrupo1"/>
+	<style name="CabeceraGrupo2"/>
+	<style name="CabeceraTabla1"/>
+	<style name="CabeceraTabla2"/>
+	<style name="Cuerpo1"/>
+	<style name="CuerpoGrupo1"/>
+	<style name="CuerpoGrupo2"/>
+	<style name="CuerpoTabla1"/>
+	<style name="CuerpoTabla2"/>
+	<style name="Pie1"/>
+	<style name="Pie2"/>
+	<parameter name="datainici" class="java.lang.String"/>
+	<parameter name="datafinal" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="grupo" class="java.lang.String"/>
+	<field name="tutorProfesor" class="java.lang.String"/>
+	<field name="alumno" class="java.lang.String"/>
+	<field name="expediente" class="java.lang.String"/>
+	<field name="fecha" class="java.util.Date"/>
+	<field name="hora" class="java.lang.String"/>
+	<field name="incidencia" class="java.lang.String"/>
+	<field name="asignatura" class="java.lang.String"/>
+	<field name="tutor" class="java.lang.String"/>
+	<field name="observacion" class="java.lang.String"/>
+	<field name="comentario" class="java.lang.String"/>
+	<variable name="numFA" class="java.lang.Integer" resetType="Group" resetGroup="alumno" calculation="Sum">
+		<variableExpression><![CDATA[($F{incidencia}.contains("Falta a")?new Integer(1):new Integer(0))]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
+	</variable>
+	<variable name="total" class="java.lang.Integer" resetType="Group" resetGroup="alumno" calculation="Count">
+		<variableExpression><![CDATA[$F{fecha}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="numFJ" class="java.lang.Integer" resetType="Group" resetGroup="alumno" calculation="Sum">
+		<variableExpression><![CDATA[($F{incidencia}.contains("Falta justificada")?new Integer(1):new Integer(0))]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
+	</variable>
+	<variable name="numAG" class="java.lang.Integer" resetType="Group" resetGroup="alumno" calculation="Sum">
+		<variableExpression><![CDATA[($F{incidencia}.contains("Greu")?new Integer(1):new Integer(0))]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
+	</variable>
+	<variable name="numAL" class="java.lang.Integer" resetType="Group" resetGroup="alumno" calculation="Sum">
+		<variableExpression><![CDATA[($F{incidencia}.equals("Amonestació Lleu")?new Integer(1):new Integer(0))]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
+	</variable>
+	<variable name="numALH" class="java.lang.Integer" resetType="Group" resetGroup="alumno" calculation="Sum">
+		<variableExpression><![CDATA[($F{incidencia}.contains("Lleu Hist")?new Integer(1):new Integer(0))]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
+	</variable>
+	<group name="grupo">
+		<groupExpression><![CDATA[$F{grupo}]]></groupExpression>
+		<groupHeader>
+			<band height="38">
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="CuerpoGrupo2" positionType="Float" x="62" y="15" width="445" height="20"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{tutorProfesor}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraGrupo2" positionType="Float" x="14" y="15" width="48" height="20"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Tutor/s:"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraGrupo2" positionType="Float" x="15" y="0" width="37" height="15"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Grup:"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="CuerpoGrupo2" positionType="Float" x="52" y="0" width="156" height="15"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{grupo}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="15" y="35" width="500" height="1"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="alumno">
+		<groupExpression><![CDATA[$F{alumno}]]></groupExpression>
+		<groupHeader>
+			<band height="66">
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="CuerpoGrupo1" positionType="Float" x="80" y="18" width="197" height="19"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{expediente}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="CuerpoGrupo1" positionType="Float" x="80" y="2" width="316" height="16"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{alumno}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraTabla1" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="54" width="52" height="12">
+						<printWhenExpression><![CDATA[new Boolean(!$F{fecha}.equals(""))]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="3" rightPadding="3">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Data"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraTabla1" positionType="Float" stretchType="RelativeToBandHeight" x="307" y="54" width="102" height="12">
+						<printWhenExpression><![CDATA[new Boolean(!$F{fecha}.equals(""))]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="3" rightPadding="3">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Observació"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraTabla1" positionType="Float" stretchType="RelativeToBandHeight" x="188" y="54" width="119" height="12">
+						<printWhenExpression><![CDATA[new Boolean(!$F{fecha}.equals(""))]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="3" rightPadding="3">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Assignatura"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraTabla1" positionType="Float" stretchType="RelativeToBandHeight" x="111" y="54" width="77" height="12">
+						<printWhenExpression><![CDATA[new Boolean(!$F{fecha}.equals(""))]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="3" rightPadding="3">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Incidència"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraTabla1" positionType="Float" stretchType="RelativeToBandHeight" x="52" y="54" width="59" height="12">
+						<printWhenExpression><![CDATA[new Boolean(!$F{fecha}.equals(""))]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="3" rightPadding="3">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Hora"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraGrupo1" positionType="Float" x="15" y="18" width="65" height="19"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Expedient:"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraGrupo1" positionType="Float" x="15" y="2" width="65" height="16"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Alumne/a:"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="CabeceraTabla1" positionType="Float" stretchType="RelativeToBandHeight" x="409" y="54" width="111" height="12">
+						<printWhenExpression><![CDATA[new Boolean(!$F{fecha}.equals(""))]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="3" rightPadding="3">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Comentari"]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="52">
+				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="alumno">
+					<reportElement style="CabeceraTabla1" positionType="Float" stretchType="RelativeToBandHeight" x="307" y="0" width="213" height="12">
+						<printWhenExpression><![CDATA[new Boolean(!$F{fecha}.equals(""))]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="3" rightPadding="3">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Total incidències: "+$V{total}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="alumno">
+					<reportElement x="14" y="12" width="506" height="36"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[($V{numFA}==0?"":"Total falta a classe: "+$V{numFA}+"\n") + ($V{numFJ}==0?"":"Total falta justificada: "+$V{numFJ}+"\n") + ($V{numAG}==0?"":"Total Amon. Greus: "+$V{numAG}+"\n") +  ($V{numAL}==0?"":"Total Amon. Lleus: "+$V{numAL}+"\n") + ($V{numALH}==0?"":"Total Amon. Lleus-Hist.: "+$V{numALH})]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="pieDetalle">
+		<groupExpression><![CDATA[$F{expediente}]]></groupExpression>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<columnHeader>
+		<band height="73">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Titulo" x="44" y="46" width="463" height="18"/>
+				<box leftPadding="2">
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Llistat d'incidències "+($P{datainici}!=null?" des de "+$P{datainici}+" fins a "+ $P{datafinal}:"")]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="14" y="64" width="500" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="196" y="12" width="95" height="20"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Pàgina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="291" y="12" width="51" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="10">
+			<printWhenExpression><![CDATA[new Boolean(!$F{fecha}.equals(""))]]></printWhenExpression>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement style="CuerpoTabla1" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="52" height="10"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="CuerpoTabla1" positionType="Float" stretchType="RelativeToBandHeight" x="52" y="0" width="59" height="10"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{hora}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="CuerpoTabla1" positionType="Float" stretchType="RelativeToBandHeight" x="188" y="0" width="119" height="10"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{asignatura}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="CuerpoTabla1" positionType="Float" stretchType="RelativeToBandHeight" x="111" y="0" width="77" height="10"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{incidencia}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="CuerpoTabla1" positionType="Float" stretchType="RelativeToBandHeight" x="307" y="0" width="102" height="10"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{observacion}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="CuerpoTabla1" positionType="Float" stretchType="RelativeToBandHeight" x="409" y="0" width="111" height="10"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{comentario}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

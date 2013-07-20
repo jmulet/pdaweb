@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <f:view locale="#{mbLogin.preferences.locale}">
+        <h:head>
+            <title>PDA WEB: Tutoria - Justifica</title>
+
+
+            <style type="text/css">
+                .injustificat{
+                    background-color: #FFB2B2 !important;
+                    background-image: none !important;
+                    color: #000000 !important;
+                }     
+            .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
+                white-space: normal !important;
+            }
+             #northpanel{z-index:2 !important;}
+             #northpanel div{overflow: visible;}
+            </style>
+  
+    <style type="text/css">
+      .highlight-calendara a {
+        font-weight:bold !important;
+        color: black !important; 
+        background: red !important; 
+      }
+      .highlight-calendarb a {
+        font-weight:bold !important;
+        color: white !important;  
+        background: green !important; 
+      }
+      .highlight-calendarc a {
+        font-weight:bold !important;
+        color: white !important;  
+        background: purple !important; 
+      }
+            .highlighta  {
+        font-weight:bold !important;
+        color: black !important; 
+        background: red !important; 
+      }
+      .highlightb {
+        font-weight:bold !important;
+        color: white !important;  
+        background: green !important; 
+      }
+      .highlightc {
+        font-weight:bold !important;
+        color: white !important;  
+        background: purple !important; 
+      }
+    </style>
+    
+      
+        <script type="text/javascript">
+        var specialDays = null;
+        jQuery(function () {
+            specialDays = <h:outputText value = "#{mbTuta.specialDates}"/> ;
+            window.setTimeout('bindEventsHighlights()',500);
+        });
+        </script>
+        </h:head>
+            
+        <h:body>
+
+            <ui:include src="./timeout.xhtml"/>
+
+
+            <p:layout style="min-width:400px;min-height:300px;" id="layout" fullPage="true">
+                <p:layoutUnit id="northpanel" position="north" resizable="true" size="65" minSize="40" maxSize="200">
+                    <h:form>
+                        <ui:include src="./menu.xhtml"/>              
+                    </h:form>
+
+                </p:layoutUnit>
+
+
+
+                <p:layoutUnit position="center" header="TUTORIA - Justificar Faltes">
+
+
+                    <h:form id="formcentre">
+                         
+                            <p:commandButton icon="ui-icon-arrowthick-1-w" value="Enrrera" action="tutoria" ajax="false"/>
+                               
+                            <h:outputText value="  Faltes de #{mbTuta.alumnoSelected.nombre}"/> 
+                            <h:outputText value=" dia "/>
+                            <h:outputScript library="js" name="#{mbLogin.preferences.locale}-translation.js" />
+                            <h:outputScript library="js" name="fcalendar.js"  target="head"/>
+                            <p:calendar id="calendar" value="#{mbTuta.dia}" showOn="button" pages="3" disabledWeekends="true"
+                                        locale="#{mbLogin.preferences.locale}" pattern="dd/MM/yyyy">
+                                <p:ajax event="dateSelect" listener="#{mbTuta.onLoadIncidencies}" update=":formtaula"/>
+                            </p:calendar>
+                            <p:commandButton icon="ui-icon-refresh" action="#{mbTuta.refreshSpecialDays}" ajax="false"/>
+                          
+                          
+                                
+                    </h:form>
+                    <h:form id="formtaula">
+                            <p:graphicImage id="alert" value="/images/alert.gif" rendered="#{mbTuta.festiu}" height="20"/>
+                            <p:tooltip for="alert" value="Dia no lectiu"/>
+                                 <p:dataTable  var="inc" value="#{mbTuta.incidencies}"
+                                             selection="#{mbTuta.incidenciaSelected}" selectionMode="single"
+                                             paginator="false"  
+                                             emptyMessage="No s'han trobat incidències."   
+                                             rowKey="#{inc.ordre}" 
+                                             rowStyleClass="#{inc.simbolo=='FA'||inc.simbolo=='F'||inc.simbolo=='R'||inc.simbolo=='RE'?'injustificat':null}" >
+
+                                    <p:column headerText="Hora" sortBy="#{inc.horaCentro}" style="width:100px">
+                                        <h:outputText value="#{inc.horaCentro}"  style="width:100%"/>
+                                    </p:column>
+
+                                    <p:column headerText="Asig." style="width:100px">
+
+                                        <h:outputText value="#{inc.asignatura}"  style="width:100%"/>
+                                    </p:column>
+
+                                    <p:column headerText="Professor" style="width:100px">
+                                        <h:outputText value="#{inc.nombreProfesor}"  style="width:100%"/>
+                                    </p:column>
+
+                                    <p:column headerText="Passà llista" style="width:100px">
+                                        <p:selectBooleanCheckbox value="#{inc.pasoLista}" disabled="true"/>
+                                    </p:column>
+                                    
+                                    <p:column headerText="Incidència" style="width:100px">
+                                        <h:selectOneMenu value="#{inc.simbolo}" disabled="#{mbTuta.festiu}">
+                                            <f:selectItem itemValue=" " itemLabel=""/>
+                                            <f:selectItem itemValue="FA" itemLabel="FA - Falta a classe"/>
+                                            <f:selectItem itemValue="FJ" itemLabel="FJ - Falta justificada"/>
+                                            <f:selectItem itemValue="RE" itemLabel="RE - Retard"/>
+                                            <f:selectItem itemValue="RJ" itemLabel="RJ - Retard justificat"/>
+                                            
+                                            <p:ajax event="change" listener="#{mbTuta.switchStatus(inc.ordre)}" update=":formtaula"
+                                                    global="false"/>
+                                        </h:selectOneMenu>
+                                         
+                                    </p:column>
+
+                                </p:dataTable>
+                            <h:outputLabel value="  ?" styleClass="highlighta"/>
+                            <h:outputText value="=Res justificat"/>
+                            <p:spacer width="20"/>
+                            <h:outputLabel value="  ?" styleClass="highlightb"/>
+                            <h:outputText value="=Tot justificat"/>
+                            <p:spacer width="20"/>
+                            <h:outputLabel value="  ?" styleClass="highlightc"/>
+                            <h:outputText value="=Queda sense justificar"/>
+                    </h:form>
+
+                </p:layoutUnit>    
+
+            </p:layout>
+
+        </h:body>
+    </f:view>
+</html>
+
